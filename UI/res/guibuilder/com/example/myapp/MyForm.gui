@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="180.0" layeredLayoutPreferredHeightMM="140.0"  autolayout="true" styles="bgColor:c5c5c5;" title="MyForm" scrollableX="false" scrollableY="false" scrollVisible="true" name="MyForm">
+  <component type="Container" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  styles="border:0.5mm solid 0; bgColor:ffffff; transparency:255; opacity:255; margin:inherit 20px inherit inherit;" preferredSize="inherit 91.27889mm" name="Container">
+    <layoutConstraint insets="40px 50.0% 40px 40px" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+    <component type="Container" layout="LayeredLayout" layeredLayoutPreferredWidthMM="68.6576" layeredLayoutPreferredHeightMM="13.989483"  preferredSize="68.359955mm 13.989483mm" name="Layered_Layout">
+      <layoutConstraint insets="auto 0.0mm 0.0mm 0.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+      <component type="Button" styles="font:150px; fgColor:d33419; transparency:0; margin:0.7mm 0.7mm 0.7mm 0.7mm;" preferredSize="13.394185mm 13.592618mm" icon="fontImage:e147" name="Button_TodoList" actionEvent="true">
+        <layoutConstraint insets="0.0mm 0.0mm 0.0mm auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+      </component>
+    </component>
+    <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  styles="margin:0.7mm 0.7mm 0.7mm 0.7mm; padding:inherit 10.0mm inherit 10.0mm;" preferredSize="68.6576mm 99.712265mm" scrollableY="false" name="Box_List">
+      <layoutConstraint insets="0.0mm 0.0mm 0.0mm 0.0mm" referenceComponents="2 -1 0 -1" referencePositions="1.0 0.0 1.0 0.0" />
+    </component>
+    <component type="Label" text="To do list" styles="font:8.0mm native:MainRegular native:MainRegular; bgColor:ffffff; fgColor:0; alignment:center; margin:30px inherit 30px inherit; padding:inherit inherit inherit inherit;" preferredSize="66.67328mm 11.905943mm" name="Label_3">
+      <layoutConstraint insets="0.0mm 0.0mm auto 0.0mm" referenceComponents="-1 0 -1 0 " referencePositions="0.0 0.0 0.0 0.0" />
+    </component>
+  </component>
+  <component type="Container" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  styles="margin:inherit inherit inherit 20px;" preferredSize="inherit 137.51364mm" name="Container_1">
+    <layoutConstraint insets="40px 40px 40px 50.0%" referenceComponents="-1 -1 -1 0 " referencePositions="0.0 0.0 0.0 0.0" />
+    <component type="Container" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  styles="border:roundRect stroke(0.5mm 000000) +top-left +top-right +bottom-left +bottom-right 7.5mm; bgColor:ffffff; transparency:255; alignment:center; margin:inherit inherit 30px inherit;" preferredSize="82.448654mm 14.485563mm" name="Container_2">
+      <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+      <component type="Button" styles="alignment:left;" preferredSize="16.073023mm 14.485563mm" icon="fontImage:e5cc" name="Button">
+        <layoutConstraint insets="0.0mm 0.0mm 0.0mm 55.1642mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+      </component>
+      <component type="Button" styles="alignment:right;" preferredSize="9.425538mm 14.485563mm" icon="fontImage:e314" name="Button_1">
+        <layoutConstraint insets="0.0mm auto auto 0.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+      </component>
+      <component type="Label" text="SUN 29 AUG" styles="font:7.0mm; fgColor:0; alignment:center;" preferredSize="44.94493mm 14.088698mm" name="Label">
+        <layoutConstraint insets="0.0mm 0.0mm 0.0mm 0.0mm" referenceComponents="-1 0 -1 1 " referencePositions="0.0 1.0 0.0 1.0" />
+      </component>
+    </component>
+    <component type="Container" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  styles="border:0.5mm solid 0; bgColor:ffffff; transparency:255; opacity:255;" preferredSize="82.05179mm 65.185036mm" name="Container_4">
+      <layoutConstraint insets="0.0mm 0.0mm 24.208748mm 0.0mm" referenceComponents="0 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+      <component type="Label" text="Event" styles="font:6.0mm; fgColor:0; alignment:center; margin:30px inherit 30px inherit;" preferredSize="80.06747mm inherit" name="Label_1">
+        <layoutConstraint insets="0.0mm 0.0mm auto 0.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+      </component>
+      <component type="Container" layout="TableLayout" tableLayoutRows="2" tableLayoutColumns="2" tableLayoutGrowHorizontally="false"  styles="margin:0.7mm 0.7mm 0.7mm 0.7mm; padding:inherit 5.0mm inherit 5.0mm;" preferredSize="82.05179mm 59.232063mm" scrollableY="false" name="Box_Event">
+        <layoutConstraint insets="0.0mm 0.0mm 0.0mm 0.0mm" referenceComponents="0 -1 2 -1" referencePositions="1.0 0.0 1.0 0.0" />
+      </component>
+      <component type="Container" layout="LayeredLayout" layeredLayoutPreferredWidthMM="68.6576" layeredLayoutPreferredHeightMM="13.989483"  preferredSize="68.359955mm 13.989483mm" name="Layered_Layout_1">
+        <layoutConstraint insets="auto -2.9802322E-8mm 0.0mm 0.0mm" referenceComponents="-1 -1 -1 0 " referencePositions="0.0 0.0 0.0 0.0" />
+        <component type="Button" styles="font:150px; fgColor:d33419; transparency:0; margin:0.7mm 0.7mm 0.7mm 0.7mm;" preferredSize="13.394185mm 13.592618mm" icon="fontImage:e147" name="Button_Event" actionEvent="true">
+          <layoutConstraint insets="0.0mm 0.0mm 0.0mm auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+        </component>
+      </component>
+    </component>
+    <component type="Container" layout="LayeredLayout" layeredLayoutPreferredWidthMM="80.06747" layeredLayoutPreferredHeightMM="22.42286"  preferredSize="80.06747mm 22.42286mm" name="Container_7">
+      <layoutConstraint insets="auto 0.0mm 0.0mm 1.9843245mm" referenceComponents="1 -1 -1 0 " referencePositions="1.0 0.0 0.0 0.0" />
+      <component type="Label" text=" Mood :" styles="font:5.0mm; fgColor:0;" preferredSize="79.6706mm 8.83024mm" name="Label_2">
+        <layoutConstraint insets="0.0mm 0.0mm auto 0.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+      </component>
+      <component type="Container" layout="BoxLayout" boxLayoutAxis="X"  styles="alignment:center; padding:inherit inherit inherit 220px;" preferredSize="80.06747mm 18.156563mm" name="Container_8">
+        <layoutConstraint insets="0.0mm 0.0mm 1.7858914mm 0.0mm" referenceComponents="0 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+        <component type="Button" uiid="Button" styles="font:6.0mm; border:none; fgColor:e0603c; padding:0px 0px 0px 0px;" unselectedStyles="bgImage:;" icon="fontImage:e061" name="Button_Mood1" actionEvent="true">
+        </component>
+        <component type="Button" styles="font:6.0mm; border:none; fgColor:d33419; padding:0px 0px 0px 0px;" icon="fontImage:e061" name="Button_Mood2">
+        </component>
+        <component type="Button" styles="font:6.0mm; fgColor:e89902; padding:0px 0px 0px 0px;" icon="fontImage:e061" name="Button_Mood3">
+        </component>
+        <component type="Button" styles="font:6.0mm; fgColor:496212; padding:0px 0px 0px 0px;" icon="fontImage:e061" name="Button_Mood4">
+        </component>
+        <component type="Button" styles="font:6.0mm; fgColor:18468d; padding:0px 0px 0px 0px;" icon="fontImage:e061" name="Button_Mood5">
+        </component>
+      </component>
+    </component>
+  </component>
+</component>
