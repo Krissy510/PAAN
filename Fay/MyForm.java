@@ -1,14 +1,11 @@
 package com.example.myapp;
 
-import com.codename1.components.FloatingActionButton;
-import com.codename1.ui.Button;
-import com.codename1.ui.Container;
-import com.codename1.ui.FontImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
 
 public class MyForm extends com.codename1.ui.Form {
+    public Time objTime = new Time();
     public MyForm() {
         this(com.codename1.ui.util.Resources.getGlobalResources());
     }
@@ -17,19 +14,53 @@ public class MyForm extends com.codename1.ui.Form {
         super("",BoxLayout.y());
         initGuiBuilderComponents(resourceObjectInstance);
         getToolbar().hideToolbar();
+
+        gui_Label_Time.setText(objTime.getFormattedDate()); //Set The Current Time
+    }
+
+    //Time Feature
+    //Button for going to the previous day
+    public void onLeft_ButtonActionEvent(ActionEvent ev) {
+        gui_Label_Time.setText(objTime.decreaseTime());
+        System.out.println("the previous day");
+    }
+
+    //Button for going to the next day
+    public void onRight_ButtonActionEvent(ActionEvent ev) {
+        gui_Label_Time.setText(objTime.increaseTime());
+        System.out.println("the next day");
+    }
+
+    //Mood Feature
+    public void onButton_Mood5ActionEvent(ActionEvent ev) {
+    }
+
+    public void onButton_Mood4ActionEvent(ActionEvent ev) {
+    }
+
+    public void onButton_Mood3ActionEvent(ActionEvent ev) {
+    }
+
+    public void onButton_Mood2ActionEvent(ActionEvent ev) {
+        setUIID("ButtonMood");
     }
 
     public void onButton_Mood1ActionEvent(ActionEvent ev) {
-       gui_Button_Mood1.getAllStyles().getBorder();
+//        gui_Button_Mood1.setToggle(true);
+//        setUIID("Button");
     }
 
+    //Event Feature
+    //Button for adding task event
     public void onButton_EventActionEvent(ActionEvent ev) {
-        Event item = new Event("hi", "11:00");
+        Event item = new Event("");
         gui_Box_Event.add(item);
         revalidate();
         System.out.println("Add event item");
     }
 
+    //Todolist Feature
+    //Button for adding task list
     public void onButton_TodoListActionEvent(ActionEvent ev) {
         TodoList item = new TodoList("", false);
         gui_Box_List.add(item);
@@ -42,18 +73,18 @@ public class MyForm extends com.codename1.ui.Form {
     protected com.codename1.ui.Container gui_Container = new com.codename1.ui.Container(new com.codename1.ui.layouts.LayeredLayout());
     protected com.codename1.ui.Container gui_Layered_Layout = new com.codename1.ui.Container(new com.codename1.ui.layouts.LayeredLayout());
     protected com.codename1.ui.Button gui_Button_TodoList = new com.codename1.ui.Button();
-    protected com.codename1.ui.Container gui_Box_List = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Label gui_Label_3 = new com.codename1.ui.Label();
+    protected com.codename1.ui.Container gui_Box_List = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_Container_1 = new com.codename1.ui.Container(new com.codename1.ui.layouts.LayeredLayout());
     protected com.codename1.ui.Container gui_Container_2 = new com.codename1.ui.Container(new com.codename1.ui.layouts.LayeredLayout());
-    protected com.codename1.ui.Button gui_Button = new com.codename1.ui.Button();
-    protected com.codename1.ui.Button gui_Button_1 = new com.codename1.ui.Button();
-    protected com.codename1.ui.Label gui_Label = new com.codename1.ui.Label();
+    protected com.codename1.ui.Button gui_Right_Button = new com.codename1.ui.Button();
+    protected com.codename1.ui.Button gui_Left_Button = new com.codename1.ui.Button();
+    protected com.codename1.ui.Label gui_Label_Time = new com.codename1.ui.Label();
     protected com.codename1.ui.Container gui_Container_4 = new com.codename1.ui.Container(new com.codename1.ui.layouts.LayeredLayout());
     protected com.codename1.ui.Label gui_Label_1 = new com.codename1.ui.Label();
-    protected com.codename1.ui.Container gui_Box_Event = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_Layered_Layout_1 = new com.codename1.ui.Container(new com.codename1.ui.layouts.LayeredLayout());
     protected com.codename1.ui.Button gui_Button_Event = new com.codename1.ui.Button();
+    protected com.codename1.ui.Container gui_Box_Event = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.Y_AXIS));
     protected com.codename1.ui.Container gui_Container_7 = new com.codename1.ui.Container(new com.codename1.ui.layouts.LayeredLayout());
     protected com.codename1.ui.Label gui_Label_2 = new com.codename1.ui.Label();
     protected com.codename1.ui.Container gui_Container_8 = new com.codename1.ui.Container(new com.codename1.ui.layouts.BoxLayout(com.codename1.ui.layouts.BoxLayout.X_AXIS));
@@ -68,8 +99,14 @@ public class MyForm extends com.codename1.ui.Form {
     private void guiBuilderBindComponentListeners() {
         EventCallbackClass callback = new EventCallbackClass();
         gui_Button_TodoList.addActionListener(callback);
+        gui_Right_Button.addActionListener(callback);
+        gui_Left_Button.addActionListener(callback);
         gui_Button_Event.addActionListener(callback);
         gui_Button_Mood1.addActionListener(callback);
+        gui_Button_Mood2.addActionListener(callback);
+        gui_Button_Mood3.addActionListener(callback);
+        gui_Button_Mood4.addActionListener(callback);
+        gui_Button_Mood5.addActionListener(callback);
     }
 
     class EventCallbackClass implements com.codename1.ui.events.ActionListener, com.codename1.ui.events.DataChangedListener {
@@ -91,11 +128,29 @@ public class MyForm extends com.codename1.ui.Form {
             if(sourceComponent == gui_Button_TodoList) {
                 onButton_TodoListActionEvent(ev);
             }
+            if(sourceComponent == gui_Right_Button) {
+                onRight_ButtonActionEvent(ev);
+            }
+            if(sourceComponent == gui_Left_Button) {
+                onLeft_ButtonActionEvent(ev);
+            }
             if(sourceComponent == gui_Button_Event) {
                 onButton_EventActionEvent(ev);
             }
             if(sourceComponent == gui_Button_Mood1) {
                 onButton_Mood1ActionEvent(ev);
+            }
+            if(sourceComponent == gui_Button_Mood2) {
+                onButton_Mood2ActionEvent(ev);
+            }
+            if(sourceComponent == gui_Button_Mood3) {
+                onButton_Mood3ActionEvent(ev);
+            }
+            if(sourceComponent == gui_Button_Mood4) {
+                onButton_Mood4ActionEvent(ev);
+            }
+            if(sourceComponent == gui_Button_Mood5) {
+                onButton_Mood5ActionEvent(ev);
             }
         }
 
@@ -122,34 +177,34 @@ public class MyForm extends com.codename1.ui.Form {
         gui_Container_1.setInlineAllStyles("margin:inherit inherit inherit 20px;");
         gui_Container_1.setName("Container_1");
         addComponent(gui_Container);
-        gui_Layered_Layout.setPreferredSizeStr("68.359955mm 13.989483mm");
+        gui_Layered_Layout.setPreferredSizeStr("68.359955mm 13.394185mm");
                 gui_Layered_Layout.setInlineStylesTheme(resourceObjectInstance);
         gui_Layered_Layout.setName("Layered_Layout");
-        gui_Box_List.setPreferredSizeStr("68.6576mm 99.712265mm");
-        gui_Box_List.setScrollableY(true);
-                gui_Box_List.setInlineStylesTheme(resourceObjectInstance);
-        gui_Box_List.setInlineAllStyles("margin:0.7mm 0.7mm 0.7mm 0.7mm; padding:inherit 5.0mm inherit 5.0mm;");
-        gui_Box_List.setName("Box_List");
         gui_Label_3.setPreferredSizeStr("66.67328mm 11.905943mm");
         gui_Label_3.setText("To do list");
                 gui_Label_3.setInlineStylesTheme(resourceObjectInstance);
-        gui_Label_3.setInlineAllStyles("font:8.0mm native:MainRegular native:MainRegular; bgColor:ffffff; fgColor:0; alignment:center; margin:30px inherit 30px inherit; padding:inherit inherit inherit inherit;");
+        gui_Label_3.setInlineAllStyles("font:8.0mm native:MainRegular native:MainRegular; bgColor:ffffff; fgColor:0; alignment:center; margin:30px inherit 10px inherit; padding:inherit inherit inherit inherit;");
         gui_Label_3.setName("Label_3");
+        gui_Box_List.setPreferredSizeStr("91.378105mm 75.404305mm");
+        gui_Box_List.setScrollableY(true);
+                gui_Box_List.setInlineStylesTheme(resourceObjectInstance);
+        gui_Box_List.setInlineAllStyles("margin:0.0mm 0.7mm 0.0mm 0.7mm; padding:inherit 10px inherit 10px;");
+        gui_Box_List.setName("Box_List");
         gui_Container.addComponent(gui_Layered_Layout);
         gui_Button_TodoList.setPreferredSizeStr("13.394185mm 13.592618mm");
                 gui_Button_TodoList.setInlineStylesTheme(resourceObjectInstance);
-        gui_Button_TodoList.setInlineAllStyles("font:150px; fgColor:d33419; transparency:0; margin:0.7mm 0.7mm 0.7mm 0.7mm;");
+        gui_Button_TodoList.setInlineAllStyles("font:150px; fgColor:d33419; transparency:0; margin:0.0mm 0.7mm 0.7mm 0.7mm;");
         gui_Button_TodoList.setName("Button_TodoList");
         com.codename1.ui.FontImage.setMaterialIcon(gui_Button_TodoList,"\ue147".charAt(0));
         gui_Layered_Layout.addComponent(gui_Button_TodoList);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Button_TodoList.getParent().getLayout()).setInsets(gui_Button_TodoList, "0.0mm 0.0mm 0.0mm auto").setReferenceComponents(gui_Button_TodoList, "-1 -1 -1 -1").setReferencePositions(gui_Button_TodoList, "0.0 0.0 0.0 0.0");
-        gui_Container.addComponent(gui_Box_List);
         gui_Container.addComponent(gui_Label_3);
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Layered_Layout.getLayout()).setPreferredWidthMM((float)68.6576);
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Layered_Layout.getLayout()).setPreferredHeightMM((float)13.989483);
+        gui_Container.addComponent(gui_Box_List);
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Layered_Layout.getLayout()).setPreferredWidthMM((float)91.378105);
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Layered_Layout.getLayout()).setPreferredHeightMM((float)13.394185);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Layered_Layout.getParent().getLayout()).setInsets(gui_Layered_Layout, "auto 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Layered_Layout, "-1 -1 -1 -1").setReferencePositions(gui_Layered_Layout, "0.0 0.0 0.0 0.0");
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Box_List.getParent().getLayout()).setInsets(gui_Box_List, "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Box_List, "2 -1 0 -1").setReferencePositions(gui_Box_List, "1.0 0.0 1.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_Label_3.getParent().getLayout()).setInsets(gui_Label_3, "0.0mm 0.0mm auto 0.0mm").setReferenceComponents(gui_Label_3, "-1 0 -1 0 ").setReferencePositions(gui_Label_3, "0.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Box_List.getParent().getLayout()).setInsets(gui_Box_List, "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Box_List, "1 -1 0 -1").setReferencePositions(gui_Box_List, "1.0 0.0 1.0 0.0");
         addComponent(gui_Container_1);
         gui_Container_2.setPreferredSizeStr("82.448654mm 14.485563mm");
                 gui_Container_2.setInlineStylesTheme(resourceObjectInstance);
@@ -163,45 +218,42 @@ public class MyForm extends com.codename1.ui.Form {
                 gui_Container_7.setInlineStylesTheme(resourceObjectInstance);
         gui_Container_7.setName("Container_7");
         gui_Container_1.addComponent(gui_Container_2);
-        gui_Button.setPreferredSizeStr("16.073023mm 14.485563mm");
-        gui_Button.setText("");
-                gui_Button.setInlineStylesTheme(resourceObjectInstance);
-        gui_Button.setInlineAllStyles("alignment:left;");
-        gui_Button.setName("Button");
-        com.codename1.ui.FontImage.setMaterialIcon(gui_Button,"\ue5cc".charAt(0));
-        gui_Button_1.setPreferredSizeStr("9.425538mm 14.485563mm");
-        gui_Button_1.setText("");
-                gui_Button_1.setInlineStylesTheme(resourceObjectInstance);
-        gui_Button_1.setInlineAllStyles("alignment:right;");
-        gui_Button_1.setName("Button_1");
-        com.codename1.ui.FontImage.setMaterialIcon(gui_Button_1,"\ue314".charAt(0));
-        gui_Label.setPreferredSizeStr("44.94493mm 14.088698mm");
-        gui_Label.setText("SUN 29 AUG");
-                gui_Label.setInlineStylesTheme(resourceObjectInstance);
-        gui_Label.setInlineAllStyles("font:7.0mm; fgColor:0; alignment:center;");
-        gui_Label.setName("Label");
-        gui_Container_2.addComponent(gui_Button);
-        gui_Container_2.addComponent(gui_Button_1);
-        gui_Container_2.addComponent(gui_Label);
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Button.getParent().getLayout()).setInsets(gui_Button, "0.0mm 0.0mm 0.0mm 55.1642mm").setReferenceComponents(gui_Button, "-1 -1 -1 -1").setReferencePositions(gui_Button, "0.0 0.0 0.0 0.0");
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Button_1.getParent().getLayout()).setInsets(gui_Button_1, "0.0mm auto auto 0.0mm").setReferenceComponents(gui_Button_1, "-1 -1 -1 -1").setReferencePositions(gui_Button_1, "0.0 0.0 0.0 0.0");
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Label.getParent().getLayout()).setInsets(gui_Label, "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Label, "-1 0 -1 1 ").setReferencePositions(gui_Label, "0.0 1.0 0.0 1.0");
+        gui_Right_Button.setPreferredSizeStr("10.020835mm 14.485563mm");
+                gui_Right_Button.setInlineStylesTheme(resourceObjectInstance);
+        gui_Right_Button.setInlineAllStyles("font:5.0mm; fgColor:0; alignment:left; padding:inherit 0.0mm inherit 0.0mm;");
+        gui_Right_Button.setName("Right_Button");
+        com.codename1.ui.FontImage.setMaterialIcon(gui_Right_Button,"\ue5cc".charAt(0));
+        gui_Left_Button.setPreferredSizeStr("10.814565mm 14.485563mm");
+                gui_Left_Button.setInlineStylesTheme(resourceObjectInstance);
+        gui_Left_Button.setInlineAllStyles("font:5.0mm; fgColor:0; alignment:right; padding:inherit 0.0mm inherit 0.0mm;");
+        gui_Left_Button.setName("Left_Button");
+        com.codename1.ui.FontImage.setMaterialIcon(gui_Left_Button,"\ue314".charAt(0));
+        gui_Label_Time.setPreferredSizeStr("44.94493mm 14.088698mm");
+        gui_Label_Time.setText("SUN 29 AUG");
+                gui_Label_Time.setInlineStylesTheme(resourceObjectInstance);
+        gui_Label_Time.setInlineAllStyles("font:7.0mm; fgColor:0; alignment:center;");
+        gui_Label_Time.setName("Label_Time");
+        gui_Container_2.addComponent(gui_Right_Button);
+        gui_Container_2.addComponent(gui_Left_Button);
+        gui_Container_2.addComponent(gui_Label_Time);
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Right_Button.getParent().getLayout()).setInsets(gui_Right_Button, "0.0mm 0.0mm 0.0mm 84.162895%").setReferenceComponents(gui_Right_Button, "-1 -1 -1 -1").setReferencePositions(gui_Right_Button, "0.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Left_Button.getParent().getLayout()).setInsets(gui_Left_Button, "0.0mm auto auto 0.0mm").setReferenceComponents(gui_Left_Button, "-1 -1 -1 -1").setReferencePositions(gui_Left_Button, "0.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Label_Time.getParent().getLayout()).setInsets(gui_Label_Time, "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Label_Time, "-1 0 -1 1 ").setReferencePositions(gui_Label_Time, "0.0 1.0 0.0 1.0");
         gui_Container_1.addComponent(gui_Container_4);
-        gui_Label_1.setPreferredSizeStr("80.06747mm inherit");
+        gui_Label_1.setPreferredSizeStr("80.06747mm 8.433376mm");
         gui_Label_1.setText("Event");
                 gui_Label_1.setInlineStylesTheme(resourceObjectInstance);
-        gui_Label_1.setInlineAllStyles("font:6.0mm; fgColor:0; alignment:center; margin:30px inherit 30px inherit;");
+        gui_Label_1.setInlineAllStyles("font:6.0mm; fgColor:0; alignment:center; margin:30px inherit 20px inherit;");
         gui_Label_1.setName("Label_1");
-        gui_Box_Event.setPreferredSizeStr("82.05179mm 59.232063mm");
-        gui_Box_Event.setScrollableY(true);
-                gui_Box_Event.setInlineStylesTheme(resourceObjectInstance);
-        gui_Box_Event.setInlineAllStyles("margin:0.7mm 0.7mm 0.7mm 0.7mm; padding:inherit 5.0mm inherit 5.0mm;");
-        gui_Box_Event.setName("Box_Event");
         gui_Layered_Layout_1.setPreferredSizeStr("68.359955mm 13.989483mm");
                 gui_Layered_Layout_1.setInlineStylesTheme(resourceObjectInstance);
         gui_Layered_Layout_1.setName("Layered_Layout_1");
+        gui_Box_Event.setPreferredSizeStr("65.780334mm 35.817043mm");
+        gui_Box_Event.setScrollableY(true);
+                gui_Box_Event.setInlineStylesTheme(resourceObjectInstance);
+        gui_Box_Event.setInlineAllStyles("bgImage:null; margin:inherit 1.0mm inherit 20.0mm;");
+        gui_Box_Event.setName("Box_Event");
         gui_Container_4.addComponent(gui_Label_1);
-        gui_Container_4.addComponent(gui_Box_Event);
         gui_Container_4.addComponent(gui_Layered_Layout_1);
         gui_Button_Event.setPreferredSizeStr("13.394185mm 13.592618mm");
                 gui_Button_Event.setInlineStylesTheme(resourceObjectInstance);
@@ -210,11 +262,12 @@ public class MyForm extends com.codename1.ui.Form {
         com.codename1.ui.FontImage.setMaterialIcon(gui_Button_Event,"\ue147".charAt(0));
         gui_Layered_Layout_1.addComponent(gui_Button_Event);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Button_Event.getParent().getLayout()).setInsets(gui_Button_Event, "0.0mm 0.0mm 0.0mm auto").setReferenceComponents(gui_Button_Event, "-1 -1 -1 -1").setReferencePositions(gui_Button_Event, "0.0 0.0 0.0 0.0");
+        gui_Container_4.addComponent(gui_Box_Event);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Label_1.getParent().getLayout()).setInsets(gui_Label_1, "0.0mm 0.0mm auto 0.0mm").setReferenceComponents(gui_Label_1, "-1 -1 -1 -1").setReferencePositions(gui_Label_1, "0.0 0.0 0.0 0.0");
-        ((com.codename1.ui.layouts.LayeredLayout)gui_Box_Event.getParent().getLayout()).setInsets(gui_Box_Event, "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Box_Event, "0 -1 2 -1").setReferencePositions(gui_Box_Event, "1.0 0.0 1.0 0.0");
         ((com.codename1.ui.layouts.LayeredLayout)gui_Layered_Layout_1.getLayout()).setPreferredWidthMM((float)68.6576);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Layered_Layout_1.getLayout()).setPreferredHeightMM((float)13.989483);
         ((com.codename1.ui.layouts.LayeredLayout)gui_Layered_Layout_1.getParent().getLayout()).setInsets(gui_Layered_Layout_1, "auto -2.9802322E-8mm 0.0mm 0.0mm").setReferenceComponents(gui_Layered_Layout_1, "-1 -1 -1 0 ").setReferencePositions(gui_Layered_Layout_1, "0.0 0.0 0.0 0.0");
+        ((com.codename1.ui.layouts.LayeredLayout)gui_Box_Event.getParent().getLayout()).setInsets(gui_Box_Event, "0.0mm 0.0mm 0.0mm 0.0mm").setReferenceComponents(gui_Box_Event, "0 0 1 0 ").setReferencePositions(gui_Box_Event, "1.0 0.0 1.0 0.0");
         gui_Container_1.addComponent(gui_Container_7);
         gui_Label_2.setPreferredSizeStr("79.6706mm 8.83024mm");
         gui_Label_2.setText(" Mood :");
@@ -228,9 +281,12 @@ public class MyForm extends com.codename1.ui.Form {
         gui_Container_7.addComponent(gui_Label_2);
         gui_Container_7.addComponent(gui_Container_8);
                 gui_Button_Mood1.setInlineStylesTheme(resourceObjectInstance);
-        gui_Button_Mood1.setInlineAllStyles("font:6.0mm; fgColor:e0603c; padding:0px 0px 0px 0px;");
+        gui_Button_Mood1.setInlineUnselectedStyles("font:6.0mm; border:none; fgColor:e0603c; bgImage:; padding:0px 0px 0px 0px;");
+        gui_Button_Mood1.setInlineSelectedStyles("font:3.0mm; border:round ffe0603c stroke(0.5mm ffffff); fgColor:e0603c; transparency:0; padding:0px 0px 0px 0px;");
+        gui_Button_Mood1.setInlinePressedStyles("font:3.0mm; border:round ffe0603c stroke(0.5mm ffffff); fgColor:e0603c; padding:0px 0px 0px 0px;");
         gui_Button_Mood1.setName("Button_Mood1");
         com.codename1.ui.FontImage.setMaterialIcon(gui_Button_Mood1,"\ue061".charAt(0));
+        gui_Button_Mood2.setUIID("ButtonMood");
                 gui_Button_Mood2.setInlineStylesTheme(resourceObjectInstance);
         gui_Button_Mood2.setInlineAllStyles("font:6.0mm; border:none; fgColor:d33419; padding:0px 0px 0px 0px;");
         gui_Button_Mood2.setName("Button_Mood2");
