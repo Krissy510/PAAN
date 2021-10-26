@@ -2,7 +2,7 @@
 Java Group Project for Java Course at KMITL
 
 # What is PAAN?
-A memo mobile application design to be easy to use for students both in School and University.
+A memo desktop application design to be easy to use for students both in School and University.
 
 # Motivation
 We always forget thigns especially in school and university where there are many things to be<br>
@@ -15,20 +15,17 @@ by giving simplistic in return.
   * Timetable (Weekly)
   * Mood memo (Daily)
   * Reminder Calender
-  * Project Tracker
-
 # Language
   * Java
-  * CSS
 
 # Libary
-[Codename One](https://www.codenameone.com/) <br>
-- An open-source mobile first toolkit for building high quality, cross-platform native apps.<br> 
-For Android, iOS, Desktop & Web.
+[Swing (Java)](https://docs.oracle.com/javase/tutorial/uiswing/) <br>
+- Swing is a GUI widget toolkit for Java.<br>
+  It is part of Oracle's Java Foundation Classes (JFC) – an API for providing a graphical user interface (GUI) for Java programs.
 
 
 # Contributor 
-  * [Raviphas Sananapanichkul](https://www.linkedin.com/in/raviphas-sananpanichkul-7a8471199/)
+  * [Raviphas Sananapanichkul](https://www.krisportfolio.tech)
   * Hatsawat Limcharoen
   * Natcha Teekayu
 
