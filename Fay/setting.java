@@ -19,8 +19,8 @@ import static project_ui.mainWindow.bgColor;
  */
 public class setting extends javax.swing.JFrame {
     Font font;
-    Color bgColor = Color.WHITE;
-    Color fgColor = Color.BLACK;
+    static Color bgColor = Color.WHITE;
+    static Color fgColor = Color.BLACK;
     /**
      * Creates new form setting
      */
@@ -34,9 +34,21 @@ public class setting extends javax.swing.JFrame {
             
         }
         initComponents();
-        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setBackground(bgColor);
+        
+        if (bgColor == Color.WHITE) {lightM.setSelected(true);}
+        else {darkM.setSelected(true);}
     }
 
+    public static void updateTheme() {
+        backgroundL.setForeground(fgColor);
+        darkM.setBackground(bgColor);
+        darkM.setForeground(fgColor);
+        lightM.setBackground(bgColor);
+        lightM.setForeground(fgColor);
+        OkSettingB.setBackground(bgColor);
+        OkSettingB.setForeground(fgColor);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,16 +59,17 @@ public class setting extends javax.swing.JFrame {
     private void initComponents() {
 
         backgroudG = new javax.swing.ButtonGroup();
-        jLabel1 = new javax.swing.JLabel();
+        backgroundL = new javax.swing.JLabel();
         darkM = new javax.swing.JRadioButton();
         lightM = new javax.swing.JRadioButton();
         OkSettingB = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(font);
-        jLabel1.setText("Background");
+        backgroundL.setFont(font);
+        backgroundL.setText("Background");
 
+        darkM.setBackground(new java.awt.Color(255, 255, 255));
         backgroudG.add(darkM);
         darkM.setFont(font);
         darkM.setText("Dark Mode");
@@ -71,9 +84,9 @@ public class setting extends javax.swing.JFrame {
             }
         });
 
+        lightM.setBackground(new java.awt.Color(255, 255, 255));
         backgroudG.add(lightM);
         lightM.setFont(font);
-        lightM.setSelected(true);
         lightM.setText("Light Mode");
         lightM.setToolTipText("");
         lightM.addActionListener(new java.awt.event.ActionListener() {
@@ -107,14 +120,14 @@ public class setting extends javax.swing.JFrame {
                                 .addComponent(OkSettingB, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addComponent(jLabel1)))
+                        .addComponent(backgroundL)))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                .addComponent(backgroundL, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(darkM)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -134,6 +147,7 @@ public class setting extends javax.swing.JFrame {
         // TODO add your handling code here:
         bgColor = Color.BLACK;
         fgColor = Color.WHITE;
+        darkM.setSelected(true);
         
     }//GEN-LAST:event_darkMActionPerformed
 
@@ -144,22 +158,18 @@ public class setting extends javax.swing.JFrame {
     private void OkSettingBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkSettingBActionPerformed
         // TODO add your handling code here:
         getContentPane().setBackground(bgColor);
-        jLabel1.setForeground(fgColor);
-        darkM.setForeground(fgColor);
-        lightM.setForeground(fgColor);
-        OkSettingB.setBackground(bgColor);
-        OkSettingB.setForeground(fgColor);
-//        mainWindow m = new mainWindow();
+        updateTheme();
         mainWindow.bgColor = bgColor;
         mainWindow.fgColor = fgColor;
         mainWindow.updateTheme();
-//        m.setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_OkSettingBActionPerformed
 
     private void lightMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lightMActionPerformed
         // TODO add your handling code here:
         bgColor = Color.WHITE;
         fgColor = Color.BLACK;
+        
     }//GEN-LAST:event_lightMActionPerformed
 
     /**
@@ -198,11 +208,11 @@ public class setting extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton OkSettingB;
+    private static javax.swing.JButton OkSettingB;
     private javax.swing.ButtonGroup backgroudG;
-    private javax.swing.JRadioButton darkM;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JRadioButton lightM;
+    private static javax.swing.JLabel backgroundL;
+    private static javax.swing.JRadioButton darkM;
+    private static javax.swing.JRadioButton lightM;
     // End of variables declaration//GEN-END:variables
 
 }
