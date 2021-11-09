@@ -64,6 +64,7 @@ public class setting extends javax.swing.JFrame {
         lightM = new javax.swing.JRadioButton();
         OkSettingB = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         backgroundL.setFont(font);
