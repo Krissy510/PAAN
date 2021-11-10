@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
+import javax.swing.JTextField;
 import javax.swing.ListModel;
 import static project_ui.usinEvent.bgColor;
 import static project_ui.usinEvent.fgColor;
@@ -50,7 +52,6 @@ public class memoForm extends javax.swing.JFrame {
         dateL.setFont(font.deriveFont(40f));
         dateL.setText(objTime.getFormattedDate()); //Set The Current Time
         
-        forButton();
         updateTheme();
     }
 
@@ -65,13 +66,13 @@ public class memoForm extends javax.swing.JFrame {
 
         moodButtonGroup = new javax.swing.ButtonGroup();
         memoP = new javax.swing.JPanel();
-        backButton = new javax.swing.JButton();
         todolistP = new javax.swing.JPanel();
         todolistL = new javax.swing.JLabel();
         delForListB = new javax.swing.JButton();
         addForListB = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         todolistT = new javax.swing.JList<>();
+        backB = new javax.swing.JButton();
         dateP = new javax.swing.JPanel();
         leftB = new javax.swing.JButton();
         rightB = new javax.swing.JButton();
@@ -101,13 +102,6 @@ public class memoForm extends javax.swing.JFrame {
         memoP.setMinimumSize(new java.awt.Dimension(1100, 700));
         memoP.setPreferredSize(new java.awt.Dimension(1100, 700));
 
-        backButton.setText("jButton1");
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
-
         todolistP.setBackground(new java.awt.Color(255, 255, 255));
         todolistP.setPreferredSize(new java.awt.Dimension(500, 500));
 
@@ -116,10 +110,14 @@ public class memoForm extends javax.swing.JFrame {
 
         delForListB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trash.png"))); // NOI18N
         delForListB.setBorder(null);
+        delForListB.setBorderPainted(false);
+        delForListB.setContentAreaFilled(false);
         delForListB.setFocusable(false);
 
         addForListB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add.png"))); // NOI18N
         addForListB.setBorder(null);
+        addForListB.setBorderPainted(false);
+        addForListB.setContentAreaFilled(false);
         addForListB.setFocusable(false);
         addForListB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,43 +130,60 @@ public class memoForm extends javax.swing.JFrame {
         todolistT.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(todolistT);
 
+        backB.setBackground(new java.awt.Color(255, 255, 255));
+        backB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/backB.png"))); // NOI18N
+        backB.setBorder(null);
+        backB.setBorderPainted(false);
+        backB.setContentAreaFilled(false);
+        backB.setFocusable(false);
+        backB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout todolistPLayout = new javax.swing.GroupLayout(todolistP);
         todolistP.setLayout(todolistPLayout);
         todolistPLayout.setHorizontalGroup(
             todolistPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(todolistPLayout.createSequentialGroup()
-                .addGroup(todolistPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(todolistPLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(delForListB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addForListB, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(todolistPLayout.createSequentialGroup()
-                        .addGap(199, 199, 199)
-                        .addComponent(todolistL)
-                        .addGap(0, 215, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(todolistPLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(delForListB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addForListB, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+            .addGroup(todolistPLayout.createSequentialGroup()
+                .addGroup(todolistPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(todolistPLayout.createSequentialGroup()
+                        .addGap(202, 202, 202)
+                        .addComponent(todolistL)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         todolistPLayout.setVerticalGroup(
             todolistPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, todolistPLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(todolistPLayout.createSequentialGroup()
+                .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addComponent(todolistL)
-                .addGap(5, 5, 5)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(todolistPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(delForListB, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addForListB, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(todolistPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addForListB, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(delForListB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         dateP.setBackground(new java.awt.Color(255, 255, 255));
 
         leftB.setBackground(new java.awt.Color(255, 255, 255));
         leftB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leftB.png"))); // NOI18N
-        leftB.setBorder(null);
+        leftB.setBorderPainted(false);
+        leftB.setContentAreaFilled(false);
         leftB.setFocusable(false);
         leftB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,7 +192,8 @@ public class memoForm extends javax.swing.JFrame {
         });
 
         rightB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rightB.png"))); // NOI18N
-        rightB.setBorder(null);
+        rightB.setBorderPainted(false);
+        rightB.setContentAreaFilled(false);
         rightB.setFocusable(false);
         rightB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,7 +203,7 @@ public class memoForm extends javax.swing.JFrame {
 
         dateL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dateL.setText("MON 23 OCT");
-        dateL.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        dateL.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, java.awt.Color.gray));
         dateL.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout datePLayout = new javax.swing.GroupLayout(dateP);
@@ -208,9 +224,9 @@ public class memoForm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datePLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(datePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dateL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rightB, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                    .addComponent(leftB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(rightB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(leftB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -226,6 +242,8 @@ public class memoForm extends javax.swing.JFrame {
 
         delForEventB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trash.png"))); // NOI18N
         delForEventB.setBorder(null);
+        delForEventB.setBorderPainted(false);
+        delForEventB.setContentAreaFilled(false);
         delForEventB.setFocusable(false);
         delForEventB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,6 +253,8 @@ public class memoForm extends javax.swing.JFrame {
 
         addForEventB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add.png"))); // NOI18N
         addForEventB.setBorder(null);
+        addForEventB.setBorderPainted(false);
+        addForEventB.setContentAreaFilled(false);
         addForEventB.setFocusable(false);
         addForEventB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -279,12 +299,16 @@ public class memoForm extends javax.swing.JFrame {
 
         moodButtonGroup.add(orangeB);
         orangeB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/orange.png"))); // NOI18N
+        orangeB.setBorderPainted(false);
+        orangeB.setContentAreaFilled(false);
         orangeB.setFocusable(false);
 
         moodButtonGroup.add(redB);
         redB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/red.png"))); // NOI18N
         redB.setToolTipText("");
         redB.setBorder(null);
+        redB.setBorderPainted(false);
+        redB.setContentAreaFilled(false);
         redB.setFocusable(false);
         redB.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -298,14 +322,20 @@ public class memoForm extends javax.swing.JFrame {
 
         moodButtonGroup.add(blueB);
         blueB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bule.png"))); // NOI18N
+        blueB.setBorderPainted(false);
+        blueB.setContentAreaFilled(false);
         blueB.setFocusable(false);
 
         moodButtonGroup.add(yellowB);
         yellowB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yellow.png"))); // NOI18N
+        yellowB.setBorderPainted(false);
+        yellowB.setContentAreaFilled(false);
         yellowB.setFocusable(false);
 
         moodButtonGroup.add(purpleB);
         purpleB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/purple.png"))); // NOI18N
+        purpleB.setBorderPainted(false);
+        purpleB.setContentAreaFilled(false);
         purpleB.setFocusable(false);
 
         javax.swing.GroupLayout moodPLayout = new javax.swing.GroupLayout(moodP);
@@ -347,9 +377,7 @@ public class memoForm extends javax.swing.JFrame {
             memoPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(memoPLayout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(memoPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(todolistP, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(backButton))
+                .addComponent(todolistP, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(memoPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(eventP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -360,20 +388,16 @@ public class memoForm extends javax.swing.JFrame {
         memoPLayout.setVerticalGroup(
             memoPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(memoPLayout.createSequentialGroup()
-                .addGroup(memoPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(32, 32, 32)
+                .addGroup(memoPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(todolistP, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
                     .addGroup(memoPLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(backButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(todolistP, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(memoPLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addComponent(dateP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eventP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addComponent(moodP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -389,15 +413,6 @@ public class memoForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
-        setVisible(false);
-        new mainWindow().setVisible(true);
-        mainWindow.bgColor = bgColor;
-        mainWindow.fgColor = fgColor;
-        mainWindow.updateTheme();
-    }//GEN-LAST:event_backButtonActionPerformed
 
     //Time Feature
     //Button for going to the previous day
@@ -416,6 +431,10 @@ public class memoForm extends javax.swing.JFrame {
 
     private void delForEventBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delForEventBActionPerformed
         // TODO add your handling code here:
+        int index = eventT.getSelectedIndex();
+        if (index != -1) {
+            eventModel.remove(index);
+        }
     }//GEN-LAST:event_delForEventBActionPerformed
 
     private void addForEventBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addForEventBActionPerformed
@@ -428,11 +447,23 @@ public class memoForm extends javax.swing.JFrame {
 
     private void addForListBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addForListBActionPerformed
         // TODO add your handling code here:
+        JCheckBox check = new JCheckBox();
+        JTextField list = new JTextField();
+        
     }//GEN-LAST:event_addForListBActionPerformed
 
     private void redBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_redBMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_redBMouseClicked
+
+    private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        new mainWindow().setVisible(true);
+        mainWindow.bgColor = bgColor;
+        mainWindow.fgColor = fgColor;
+        mainWindow.updateTheme();
+    }//GEN-LAST:event_backBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -491,40 +522,11 @@ public class memoForm extends javax.swing.JFrame {
         
     }
     
-    public static void forButton() {
-        delForListB.setContentAreaFilled(false);
-        delForListB.setBorderPainted(false);
-        
-        delForEventB.setContentAreaFilled(false);
-        delForEventB.setBorderPainted(false);
-        
-        addForListB.setContentAreaFilled(false);
-        addForListB.setBorderPainted(false);
-        
-        addForEventB.setContentAreaFilled(false);
-        addForEventB.setBorderPainted(false);
-
-        leftB.setContentAreaFilled(false);
-        leftB.setBorderPainted(false);
-        rightB.setContentAreaFilled(false);
-        rightB.setBorderPainted(false);
-        
-        redB.setContentAreaFilled(false);
-        redB.setBorderPainted(false);
-        orangeB.setContentAreaFilled(false);
-        orangeB.setBorderPainted(false);
-        yellowB.setContentAreaFilled(false);
-        yellowB.setBorderPainted(false);
-        purpleB.setContentAreaFilled(false);
-        purpleB.setBorderPainted(false);
-        blueB.setContentAreaFilled(false);
-        blueB.setBorderPainted(false);
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton addForEventB;
     private static javax.swing.JButton addForListB;
-    private javax.swing.JButton backButton;
+    private javax.swing.JButton backB;
     private static javax.swing.JToggleButton blueB;
     private static javax.swing.JLabel dateL;
     private static javax.swing.JPanel dateP;
