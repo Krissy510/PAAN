@@ -1,3 +1,16 @@
 
 *.xml
 *.iml
+Kris/Test Ground/out/production/Test Ground/EventList.class
+Kris/Test Ground/out/production/Test Ground/TodoListTester.class
+Kris/Test Ground/out/production/Test Ground/TodoList.class
+Kris/Test Ground/out/production/Test Ground/TaskList.class
+Kris/Test Ground/out/production/Test Ground/TaskFactory.class
+Kris/Test Ground/out/production/Test Ground/TaskEvent.class
+Kris/Test Ground/out/production/Test Ground/taskdb.db
+Kris/Test Ground/out/production/Test Ground/Task.class
+Kris/Test Ground/out/production/Test Ground/PaanModel.class
+Kris/Test Ground/out/production/Test Ground/PaanDAO.class
+Kris/Test Ground/out/production/Test Ground/Main.class
+Fay/FayUI/UI/nbproject/project.properties
+Fay/FayUI/UI/nbproject/private/private.properties
