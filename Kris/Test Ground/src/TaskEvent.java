@@ -5,8 +5,10 @@ import java.util.Date;
 public class TaskEvent extends Task{
     // Due date of the task
     private Date date;
+    private final SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    // default constructor
+
+    // default constructor when there is none
     public TaskEvent(){
         super();
         this.date = new Date();
@@ -27,7 +29,6 @@ public class TaskEvent extends Task{
     // OVERLOAD: constructor with String and String Date
     public TaskEvent(String detail, String date) {
         super(detail);
-        SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         try{
             this.date = ft.parse(date);
         } catch (ParseException e) {
@@ -35,8 +36,8 @@ public class TaskEvent extends Task{
             System.out.println("Incorrect format");
             this.date = new Date();
         }
-
     }
+
 
     // return Obj date
     public Date getDate() { return date; }
@@ -48,7 +49,6 @@ public class TaskEvent extends Task{
 
     // set due date with String
     public void setDate(String duedate) {
-        SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         try{
             this.date = ft.parse(duedate);
         } catch (ParseException e) {
@@ -64,7 +64,8 @@ public class TaskEvent extends Task{
         return date.before(current);
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return getDetail() + " " + ft.format(date);
+    }
 }
