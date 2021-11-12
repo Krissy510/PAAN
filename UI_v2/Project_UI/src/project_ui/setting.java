@@ -26,7 +26,7 @@ public class setting extends javax.swing.JFrame {
      */
     public setting() {
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File("Chewy-Regular.ttf")).deriveFont(20f);
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("Chewy-Regular.ttf")).deriveFont(30f);
             GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
             g.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Chewy-Regular.ttf")));
         }
@@ -34,20 +34,16 @@ public class setting extends javax.swing.JFrame {
             
         }
         initComponents();
-        getContentPane().setBackground(bgColor);
         
-        if (bgColor == Color.WHITE) {lightM.setSelected(true);}
-        else {darkM.setSelected(true);}
+        updateTheme();
+        
+//        if (bgColor == Color.WHITE) {lightM.setSelected(true);}
+//        else {darkM.setSelected(true);}
     }
 
     public static void updateTheme() {
+        settingP.setBackground(bgColor);
         backgroundL.setForeground(fgColor);
-        darkM.setBackground(bgColor);
-        darkM.setForeground(fgColor);
-        lightM.setBackground(bgColor);
-        lightM.setForeground(fgColor);
-        OkSettingB.setBackground(bgColor);
-        OkSettingB.setForeground(fgColor);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,122 +55,118 @@ public class setting extends javax.swing.JFrame {
     private void initComponents() {
 
         backgroudG = new javax.swing.ButtonGroup();
+        settingP = new javax.swing.JPanel();
         backgroundL = new javax.swing.JLabel();
-        darkM = new javax.swing.JRadioButton();
-        lightM = new javax.swing.JRadioButton();
-        OkSettingB = new javax.swing.JButton();
+        backB = new javax.swing.JButton();
+        lightB = new javax.swing.JToggleButton();
+        darkB = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
         backgroundL.setFont(font);
-        backgroundL.setText("Background");
+        backgroundL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        backgroundL.setText("THEME");
 
-        darkM.setBackground(new java.awt.Color(255, 255, 255));
-        backgroudG.add(darkM);
-        darkM.setFont(font);
-        darkM.setText("Dark Mode");
-        darkM.setFocusable(false);
-        darkM.addActionListener(new java.awt.event.ActionListener() {
+        backB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/backB.png"))); // NOI18N
+        backB.setContentAreaFilled(false);
+        backB.setFocusPainted(false);
+        backB.setFocusable(false);
+        backB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                darkMActionPerformed(evt);
-            }
-        });
-        darkM.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                darkMPropertyChange(evt);
+                backBActionPerformed(evt);
             }
         });
 
-        lightM.setBackground(new java.awt.Color(255, 255, 255));
-        backgroudG.add(lightM);
-        lightM.setFont(font);
-        lightM.setText("Light Mode");
-        lightM.setToolTipText("");
-        lightM.setFocusable(false);
-        lightM.addActionListener(new java.awt.event.ActionListener() {
+        lightB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightM.png"))); // NOI18N
+        lightB.setContentAreaFilled(false);
+        lightB.setFocusPainted(false);
+        lightB.setFocusable(false);
+        lightB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lightMActionPerformed(evt);
+                lightBActionPerformed(evt);
             }
         });
 
-        OkSettingB.setFont(font);
-        OkSettingB.setText("OK");
-        OkSettingB.setAlignmentY(0.0F);
-        OkSettingB.setFocusable(false);
-        OkSettingB.addActionListener(new java.awt.event.ActionListener() {
+        darkB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/nightM.png"))); // NOI18N
+        darkB.setContentAreaFilled(false);
+        darkB.setFocusPainted(false);
+        darkB.setFocusable(false);
+        darkB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OkSettingBActionPerformed(evt);
+                darkBActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout settingPLayout = new javax.swing.GroupLayout(settingP);
+        settingP.setLayout(settingPLayout);
+        settingPLayout.setHorizontalGroup(
+            settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingPLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingPLayout.createSequentialGroup()
+                .addContainerGap(73, Short.MAX_VALUE)
+                .addComponent(lightB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(darkB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
+            .addComponent(backgroundL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        settingPLayout.setVerticalGroup(
+            settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingPLayout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(backgroundL, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lightB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(darkB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(darkM)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lightM)
-                                .addGap(18, 18, 18)
-                                .addComponent(OkSettingB, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(backgroundL)))
-                .addContainerGap(36, Short.MAX_VALUE))
+            .addComponent(settingP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(backgroundL, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(darkM)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lightM)
-                        .addGap(51, 51, 51))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(OkSettingB)
-                        .addGap(26, 26, 26))))
+            .addComponent(settingP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void darkMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darkMActionPerformed
+    private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
         // TODO add your handling code here:
-        bgColor = Color.BLACK;
-        fgColor = Color.WHITE;
-        darkM.setSelected(true);
-        
-    }//GEN-LAST:event_darkMActionPerformed
+        setVisible(false);
+    }//GEN-LAST:event_backBActionPerformed
 
-    private void darkMPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_darkMPropertyChange
+    private void lightBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lightBActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_darkMPropertyChange
-
-    private void OkSettingBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkSettingBActionPerformed
-        // TODO add your handling code here:
-        getContentPane().setBackground(bgColor);
+        bgColor = Color.WHITE;
+        fgColor = Color.BLACK;
         updateTheme();
         mainWindow.bgColor = bgColor;
         mainWindow.fgColor = fgColor;
         mainWindow.updateTheme();
-        setVisible(false);
-    }//GEN-LAST:event_OkSettingBActionPerformed
+    }//GEN-LAST:event_lightBActionPerformed
 
-    private void lightMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lightMActionPerformed
+    private void darkBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darkBActionPerformed
         // TODO add your handling code here:
-        bgColor = Color.WHITE;
-        fgColor = Color.BLACK;
-        
-    }//GEN-LAST:event_lightMActionPerformed
+        bgColor = Color.BLACK;
+        fgColor = Color.WHITE;
+        updateTheme();
+        mainWindow.bgColor = bgColor;
+        mainWindow.fgColor = fgColor;
+        mainWindow.updateTheme();
+    }//GEN-LAST:event_darkBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,11 +204,12 @@ public class setting extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JButton OkSettingB;
+    private static javax.swing.JButton backB;
     private javax.swing.ButtonGroup backgroudG;
     private static javax.swing.JLabel backgroundL;
-    private static javax.swing.JRadioButton darkM;
-    private static javax.swing.JRadioButton lightM;
+    private static javax.swing.JToggleButton darkB;
+    private static javax.swing.JToggleButton lightB;
+    private static javax.swing.JPanel settingP;
     // End of variables declaration//GEN-END:variables
 
 }

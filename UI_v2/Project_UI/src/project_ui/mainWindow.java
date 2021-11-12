@@ -11,6 +11,8 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import static java.lang.System.exit;
+import javax.swing.BorderFactory;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -21,10 +23,13 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
+
 public class mainWindow extends javax.swing.JFrame {
     Font font;
     static Color bgColor = Color.WHITE;
     static Color fgColor = Color.BLACK;
+    static Border border = BorderFactory.createLineBorder(fgColor, 3);
     /**
      * Creates new form mainWindow
      */
@@ -41,11 +46,15 @@ public class mainWindow extends javax.swing.JFrame {
         
         initComponents();
        
+       
         
     }
     
     
     public static void updateTheme() {
+        border = BorderFactory.createLineBorder(fgColor, 3);
+        timelineP.setBorder(border);
+        
         mainP.setBackground(bgColor);
         memoB.setBackground(bgColor);
         dailyB.setBackground(bgColor);
@@ -85,6 +94,7 @@ public class mainWindow extends javax.swing.JFrame {
         timelineL = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         timelineT = new javax.swing.JList<>();
+        exitB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1100, 700));
@@ -130,6 +140,9 @@ public class mainWindow extends javax.swing.JFrame {
         helpB.setText("HELP");
 
         settingB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/settingButton.png"))); // NOI18N
+        settingB.setContentAreaFilled(false);
+        settingB.setFocusPainted(false);
+        settingB.setFocusable(false);
         settingB.setMaximumSize(new java.awt.Dimension(20, 50));
         settingB.setMinimumSize(new java.awt.Dimension(20, 50));
         settingB.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -140,34 +153,43 @@ public class mainWindow extends javax.swing.JFrame {
         });
 
         timelineP.setBackground(new java.awt.Color(255, 255, 255));
+        timelineP.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
         timelineL.setFont(font);
+        timelineL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         timelineL.setText("TIMELINE");
+        timelineL.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
+        jScrollPane2.setBorder(null);
+
+        timelineT.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(timelineT);
 
         javax.swing.GroupLayout timelinePLayout = new javax.swing.GroupLayout(timelineP);
         timelineP.setLayout(timelinePLayout);
         timelinePLayout.setHorizontalGroup(
             timelinePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, timelinePLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, timelinePLayout.createSequentialGroup()
-                .addContainerGap(299, Short.MAX_VALUE)
-                .addComponent(timelineL)
-                .addGap(275, 275, 275))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+            .addComponent(timelineL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         timelinePLayout.setVerticalGroup(
             timelinePLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(timelinePLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(timelineL, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        exitB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/exitB.png"))); // NOI18N
+        exitB.setContentAreaFilled(false);
+        exitB.setFocusPainted(false);
+        exitB.setFocusable(false);
+        exitB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
@@ -183,31 +205,34 @@ public class mainWindow extends javax.swing.JFrame {
                             .addComponent(tableB, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(helpB, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(mainPLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
+                        .addGap(20, 20, 20)
+                        .addComponent(exitB, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(settingB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addComponent(timelineP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addGap(45, 45, 45))
         );
         mainPLayout.setVerticalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(mainPLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(timelineP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPLayout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(memoB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(dailyB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tableB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(helpB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(settingB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(61, 61, 61))
+            .addGroup(mainPLayout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(memoB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(dailyB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(tableB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(helpB, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(settingB, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                    .addComponent(exitB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
+            .addGroup(mainPLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(timelineP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -250,6 +275,11 @@ public class mainWindow extends javax.swing.JFrame {
         setting.updateTheme();
     }//GEN-LAST:event_settingBActionPerformed
 
+    private void exitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBActionPerformed
+        // TODO add your handling code here:
+        exit(0);
+    }//GEN-LAST:event_exitBActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -289,6 +319,7 @@ public class mainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton dailyB;
+    private static javax.swing.JButton exitB;
     private static javax.swing.JButton helpB;
     private javax.swing.JScrollPane jScrollPane2;
     private static javax.swing.JPanel mainP;
