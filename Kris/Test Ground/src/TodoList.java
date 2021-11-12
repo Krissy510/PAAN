@@ -16,14 +16,22 @@ public class TodoList {
 
     // Add Task
     public void addTask(String detail){ // O(n) where n = unchecked amount
-        todoLinkedList.add(unchecked, TaskFactory.getTaskList(detail)); // O(n)
+        todoLinkedList.add(unchecked, (TaskList) TaskFactory.createTask("list",detail)); // O(n)
         unchecked++;// O(1)
         total++;// O(1)
     }
     // Overload Task
     public void addTask(String detail, boolean done){ // O(1)
-        todoLinkedList.add(TaskFactory.getTaskList(detail,done)); // O(1)
+        todoLinkedList.add((TaskList) TaskFactory.createTask(detail,done)); // O(1)
         if(done)checked++;
+        else unchecked++;
+        total++;
+    }
+
+    // Overload Task
+    public void addTask(String detail, int status){ // O(1)
+        todoLinkedList.add((TaskList) TaskFactory.createTask(detail,status==1)); // O(1)
+        if(status==1)checked++;
         else unchecked++;
         total++;
     }
