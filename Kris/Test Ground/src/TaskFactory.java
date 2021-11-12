@@ -13,10 +13,10 @@ public class TaskFactory {
         if(type == null){
             return null;
         }
-        if(type.equalsIgnoreCase("List")){
+        if(type.equalsIgnoreCase("list")){
             return new TaskList(detail);
         }
-        else if (type.equalsIgnoreCase("Event")){
+        else if (type.equalsIgnoreCase("event")){
             return new TaskEvent(detail);
         }
         return null;
