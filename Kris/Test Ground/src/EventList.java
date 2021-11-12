@@ -12,7 +12,11 @@ public class EventList {
         passed = remain = total = 0;
     }
 
-    public void update(){
+    public LinkedList<TaskEvent> getTaskEventLinkedList() {
+        return taskEventLinkedList;
+    }
+
+    public void sort(){
         int loop = total;
         for(int i = 0; i < loop; i++ ){
             TaskEvent temp = taskEventLinkedList.get(i); // O(n)
@@ -25,16 +29,21 @@ public class EventList {
         }
     }
 
+    public void clear(){
+        taskEventLinkedList.clear();
+    }
+
     public void addTask(String detail){ // O(n)
-        taskEventLinkedList.add(remain,(TaskEvent) TaskFactory.createTask("", detail));
+        taskEventLinkedList.add(remain,(TaskEvent) TaskFactory.createTask("event", detail));
         remain++;
         total++;
     }
 
     public void addTask(String detail, String date){ // O(n)
-        taskEventLinkedList.add(remain, (TaskEvent) TaskFactory.createTask(detail, date));
+        taskEventLinkedList.add(remain, (TaskEvent) TaskFactory.createTask("event",detail, date));
         remain++;
         total++;
+
     }
 
     public void removeTask(int index){ // O(n)
@@ -45,14 +54,13 @@ public class EventList {
         total--;
     }
 
-    public void display(){
-        System.out.println("Total task: "+total);
-        System.out.println("Remain: "+remain);
-        System.out.println("Passed: "+passed);
-        System.out.println("Index\t\tStatus\t\tDetail");
-        for(int i =0; i < total; i++){
-            System.out.print(i+"\t\t\t");
-            System.out.println(taskEventLinkedList.get(i).toString());
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (TaskEvent temp:
+             taskEventLinkedList) {
+            str.append(temp.toString()).append("\n");
         }
+        return String.valueOf(str);
     }
 }
