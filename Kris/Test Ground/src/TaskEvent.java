@@ -74,6 +74,6 @@ public class TaskEvent extends Task{
 
     @Override
     public String toString() {
-        return getDetail() + " " + ft.format(date);
+        return getDetail() + " " + date;
     }
 }
