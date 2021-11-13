@@ -39,7 +39,7 @@ public class TodoList {
     // Delete Task
     public void deleteTask(int index){ // O(n)
         TaskList temp = todoLinkedList.get(index); // O(n)
-        if(temp.isDone()) checked--;  // O(1)
+        if(temp.getStatus()) checked--;  // O(1)
         else unchecked--;
         todoLinkedList.remove(temp); // O(1)
         total--;
@@ -66,7 +66,7 @@ public class TodoList {
 
     // Check if Task is checked Tester
     public boolean isCheck(int index){
-        return todoLinkedList.get(index).isDone();
+        return todoLinkedList.get(index).getStatus();
     } // O(n)
 
     // Check if task exist Tester
