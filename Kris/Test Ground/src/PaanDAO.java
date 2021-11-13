@@ -27,7 +27,7 @@ public class PaanDAO {
         if(cnn != null) this.st = cnn.createStatement();
     }
 
-    // Check Table exist
+    // Check Method
     public boolean checkExist(String tableName){
         String query = "SELECT name FROM sqlite_master WHERE name='"+tableName;
         if(tableName.equals("userSettings")) query += "'";
@@ -37,6 +37,17 @@ public class PaanDAO {
             return rs.getString(1) != null;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean checkDataExist(String tableName){
+        String query = "SELECT * FROM "+tableName;
+        try{
+            rs = st.executeQuery(query);
+            return !rs.isClosed();
+        } catch (SQLException e) {
+            System.out.println(e);
         }
         return false;
     }
@@ -73,6 +84,25 @@ public class PaanDAO {
     }
 
 
+    // Insert Method
+    public void insert(int theme, int timeFormat){
+        String query = "INSERT INTO userSettings(theme,timeFormat) VALUES("+theme+","+timeFormat+")";
+        try{
+            st.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insert(int drink){
+        String query = "INSERT INTO waterTable(drink) VALUES("+drink+")";
+        try{
+            st.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     // Update Method
     public void updateSettings(String type, int val){
@@ -83,6 +113,7 @@ public class PaanDAO {
             System.out.println(e.getMessage());
         }
     }
+
 
     // Load Method
     public int loadSettings(String type){
@@ -98,7 +129,6 @@ public class PaanDAO {
             return 0;
         }
     }
-
 
     public EventList loadTimeline(){
         Date current = new Date(); // Current  date
