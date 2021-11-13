@@ -23,7 +23,6 @@ public class PaanModel extends Observable {
 
 
     public PaanModel() {
-        this.mood = (TaskEvent) TaskFactory.createTask("event", "None");
         this.todoList = new TodoList();
         this.eventList = new EventList();
         this.timeline = new EventList();
@@ -56,10 +55,13 @@ public class PaanModel extends Observable {
         }
         if(!pdao.checkDataExist("userSettings")) pdao.insert(0,0);
         if(!pdao.checkDataExist("dailyTable")) pdao.insert(0,focusDate);
-//        loadTimeline();
-//        loadUserSettings();
-//        loadTodoList();
+        loadTimeline();
+        loadUserSettings();
+        loadTodoList();
         loadMood();
+        if(mood == null){
+            this.mood = (TaskEvent) TaskFactory.createTask("event", "None");
+        }
     }
 
     // Timeline
@@ -108,11 +110,12 @@ public class PaanModel extends Observable {
     }
 
     public void insertMood(String felt){
-
+        mood.setDetail(felt);
+        pdao.insert("mood",felt,focusDate);
     }
 
     public String getMood(){
-        return mood.getDetail();
+        return mood != null? mood.getDetail():null ;
     }
 
     public void updateMood(){
