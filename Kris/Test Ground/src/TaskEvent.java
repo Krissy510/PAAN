@@ -38,9 +38,17 @@ public class TaskEvent extends Task{
         }
     }
 
+    // get time
+    public String getTime(){
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+        return time.format(date);
+    }
 
-    // return Obj date
-    public Date getDate() { return date; }
+    // get date
+    public String getDate(){
+        SimpleDateFormat time = new SimpleDateFormat("dd/MM/yyyy");
+        return time.format(date);
+    }
 
     // set due date with OBJ
     public void setDate(Date duedate) {
