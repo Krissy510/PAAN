@@ -1,5 +1,4 @@
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -31,19 +30,21 @@ public class PaanModel extends Observable {
         this.focusDate = new Date();
         try {
             this.pdao = new PaanDAO();
+            initialize();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            System.exit(0);
         }
-        initialize();
+
     }
 
     private void initialize(){
         LinkedList<String> arr = new LinkedList<>();
-        arr.add("daily");
+        arr.add("dailyTask");
         arr.add("event");
         arr.add("mood");
         arr.add("todo");
-        arr.add("water");
+        arr.add("daily");
         arr.add("userSettings");
         arr.removeIf(tableName -> pdao.checkExist(tableName));
         // If there is Table missing arr.size() != 0
@@ -51,27 +52,37 @@ public class PaanModel extends Observable {
             for (String missing:
                  arr) {
                 pdao.createTable(missing); // Create the missing table
-//                if(missing.equals("userSettings"))
             }
         }
-
+        if(!pdao.checkDataExist("userSettings")) pdao.insert(0,0);
+        if(!pdao.checkDataExist("dailyTable")) pdao.insert(0,focusDate);
 //        loadTimeline();
 //        loadUserSettings();
+//        loadTodoList();
+        loadMood();
     }
 
-    public void setSettings(String type, int val){
-        if(type.equals("theme")) theme = val;
-        else timeFormat = val;
-        pdao.updateSettings(type,val);
-    }
-
+    // Timeline
     public void loadTimeline(){
         timeline = pdao.loadTimeline();
     }
 
+    public LinkedList<TaskEvent> getTimelineList() {
+        return timeline.getTaskEventLinkedList();
+    }
+
+    // Setting
     public void loadUserSettings(){
         theme = pdao.loadSettings("theme");
         timeFormat = pdao.loadSettings("timeFormat");
+    }
+
+    // Use for update val of setting both local and at the db
+    // Ex. setSettings("theme", 1);
+    public void updateSettings(String type, int val){
+        if(type.equals("theme")) theme = val;
+        else timeFormat = val;
+        pdao.updateSettings(type,val);
     }
 
     // 0 : light
@@ -86,11 +97,42 @@ public class PaanModel extends Observable {
         return timeFormat;
     }
 
+
+    // Mood
+    // Format we mostly use yyyy-mm-dd for date
+    // and hh:mm for time
+
+    // load mood at focus date
+    public void loadMood(){
+        mood = pdao.loadMood(focusDate);
+    }
+
+    public void insertMood(String felt){
+
+    }
+
+    public String getMood(){
+        return mood.getDetail();
+    }
+
+    public void updateMood(){
+
+    }
+
+
+    // Todolist
+    public void loadTodoList(){ todoList = pdao.loadTodoList();}
+
+    public  LinkedList<TaskList> getTodoList(){
+        return todoList.getTodoList();
+    }
+
+    // EventList
     public LinkedList<TaskEvent> getEventList(){
         return eventList.getTaskEventLinkedList();
     }
 
-    public LinkedList<TaskEvent> getTimelineList() {
-        return timeline.getTaskEventLinkedList();
-    }
+
+
+
 }
