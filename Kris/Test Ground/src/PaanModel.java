@@ -1,11 +1,12 @@
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Observable;
 
 public class PaanModel extends Observable {
 
-    // user setting
+    // user setting attr
     private int timeFormat;
     private int theme;
 
@@ -37,8 +38,25 @@ public class PaanModel extends Observable {
     }
 
     private void initialize(){
-        loadTimeline();
-        loadUserSettings();
+        LinkedList<String> arr = new LinkedList<>();
+        arr.add("daily");
+        arr.add("event");
+        arr.add("mood");
+        arr.add("todo");
+        arr.add("water");
+        arr.add("userSettings");
+        arr.removeIf(tableName -> pdao.checkExist(tableName));
+        // If there is Table missing arr.size() != 0
+        if(arr.size() != 0){
+            for (String missing:
+                 arr) {
+                pdao.createTable(missing); // Create the missing table
+//                if(missing.equals("userSettings"))
+            }
+        }
+
+//        loadTimeline();
+//        loadUserSettings();
     }
 
     public void setSettings(String type, int val){
