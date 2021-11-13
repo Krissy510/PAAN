@@ -47,7 +47,7 @@ public class PaanDAO {
             rs = st.executeQuery(query);
             return !rs.isClosed();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return false;
     }
@@ -56,21 +56,21 @@ public class PaanDAO {
     public void createTable(String tableName){
         String command = "CREATE TABLE IF NOT EXISTS "+tableName;
         switch (tableName) {
-            case "daily":
+            case "dailyTask":
             case "todo":
-                command += "Table (status INTEGER,detail TEXT);";
+                command += "Table (status INTEGER NOT NULL,detail TEXT);";
                 break;
             case "event":
                 command += "Table (detail TEXT, dateTime TEXT);";
                 break;
             case "mood":
-                command += "Table (felt INTEGER, dateTime TEXT);";
+                command += "Table (detail TEXT, dateTime TEXT);";
                 break;
             case "theme":
                 command += "Table (theme INTEGER, timeFormat INTEGER);";
                 break;
-            case "water":
-                command += "Table (drink INTEGER NOT NULL);";
+            case "daily":
+                command += "Table (drink INTEGER NOT NULL, dateTime TEXT);";
                 break;
             case "userSettings":
                 command += " (theme INTEGER NOT NULL, timeFormat INTEGER NOT NULL);";
@@ -85,6 +85,7 @@ public class PaanDAO {
 
 
     // Insert Method
+    // For userSettings
     public void insert(int theme, int timeFormat){
         String query = "INSERT INTO userSettings(theme,timeFormat) VALUES("+theme+","+timeFormat+")";
         try{
@@ -94,8 +95,22 @@ public class PaanDAO {
         }
     }
 
-    public void insert(int drink){
-        String query = "INSERT INTO waterTable(drink) VALUES("+drink+")";
+    // For TaskTable
+    public void insert(int drink,Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = "'" + sdf.format(date) + "'";
+        String query = "INSERT INTO dailyTable (drink,dateTime) VALUES("+drink+","+dateStr+")";
+        try{
+            st.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // For event and mood
+    public void insert(String table,Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
         try{
             st.executeUpdate(query);
         } catch (SQLException e) {
@@ -154,13 +169,26 @@ public class PaanDAO {
         try {
             rs = st.executeQuery(query);
             while(rs.next()){
-                temp.addTask(rs.getString(1), rs.getInt(2) == 1);
+                temp.addTask(rs.getString(2), rs.getInt(1) == 1);
             }
             return temp;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    public TaskEvent loadMood(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(date);
+        String query = "SELECT * FROM moodTable WHERE dateTime == '" + dateStr + "'";
+        try{
+            rs = st.executeQuery(query);
+            if(!rs.isClosed()) return  (TaskEvent) TaskFactory.createTask(rs.getString("detail"),date);
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 }
