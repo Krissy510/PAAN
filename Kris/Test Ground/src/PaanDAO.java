@@ -22,7 +22,6 @@ public class PaanDAO {
     }
 
     // Constructor
-
     public PaanDAO() throws SQLException {
         this.connect();
         if(cnn != null) this.st = cnn.createStatement();
@@ -73,7 +72,7 @@ public class PaanDAO {
         }
     }
 
-    
+
 
     // Update Method
     public void updateSettings(String type, int val){
@@ -86,7 +85,6 @@ public class PaanDAO {
     }
 
     // Load Method
-
     public int loadSettings(String type){
         String query = "SELECT " + type + " FROM userSettings";
         try {
