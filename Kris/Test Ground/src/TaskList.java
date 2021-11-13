@@ -10,37 +10,37 @@ public class TaskList extends Task{
      */
 
     // boolean to check if the task already done or not
-    private boolean done;
+    private boolean status;
 
     // default constructor
     public TaskList() {
         super();
-        this.done = false;
+        this.status = false;
     }
 
     // OVERLOAD: constructor with only String
     public TaskList(String detail) {
         super(detail);
-        this.done = false;
+        this.status = false;
     }
 
     // OVERLOAD: constructor with String and boolean
-    public TaskList(String detail, boolean done) {
+    public TaskList(String detail, boolean status) {
         super(detail);
-        this.done = done;
+        this.status = status;
     }
 
     // set done attr
-    public void setDone(boolean done){ this.done = done;}
+    public void setDone(boolean done){ this.status = done;}
 
     // return status of the task
-    public boolean isDone(){ return done;}
+    public boolean getStatus(){ return status;}
 
     // ToString for testing
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        if(done) str.append("Done\t\t");
+        if(status) str.append("Done\t\t");
         else str.append("Not Done\t");
         str.append(getDetail());
         return str.toString();
