@@ -91,4 +91,8 @@ public class TodoList {
         }
         System.out.println();
     }
+
+    public LinkedList<TaskList> getTodoList() {
+        return todoLinkedList;
+    }
 }
