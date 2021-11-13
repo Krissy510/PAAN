@@ -108,9 +108,10 @@ public class PaanDAO {
     }
 
     // For event and mood
-    public void insert(String table,Date date){
+    public void insert(String table,String detail,Date date){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+        String query = "INSERT INTO " + table+"Table (detail,dateTime) VALUES( '"+detail+"','"+sdf.format(date)+"')" ;
+        System.out.println(query);
         try{
             st.executeUpdate(query);
         } catch (SQLException e) {
