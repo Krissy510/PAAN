@@ -31,5 +31,10 @@ public class TaskFactory {
         return new TaskEvent(detail, date);
     }
 
+    public static Task createTask(String detail, Date date){ // this.duedate = "day/month/year hr:m"
+        return new TaskEvent(detail, date);
+    }
+
+
 }
 
