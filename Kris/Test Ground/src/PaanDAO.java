@@ -213,7 +213,7 @@ public class PaanDAO {
     }
 
     public EventList loadEvent(Date date){
-        String dateCstr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date)+"'";
+        String dateCstr = "'"+new SimpleDateFormat("yyyy-MM-dd").format(date)+"'";
         String dateSstr = (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+(date.getDate()+1);
         try {
             Date temp = new SimpleDateFormat("yyyy-MM-dd").parse(dateSstr);
@@ -223,11 +223,38 @@ public class PaanDAO {
             while(rs.next()){
                 eventList.addTask(rs.getString(1),rs.getString(2));
             }
+            eventList.sort();
             return eventList;
         } catch (ParseException | SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+
+    // event
+    public boolean isDuplicate(String detail, Date checkDate){
+            String checkDateStr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(checkDate)+"'";
+            String query = "SELECT * FROM eventTAble WHERE detail == '"+detail+"' AND dateTime == "+checkDateStr;
+            try{
+                rs = st.executeQuery(query);
+                return !rs.isClosed();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+            return true;
+    }
+
+
+    // event
+    public void remove(String detail, Date delDate){
+        String delDateStr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(delDate)+"'";
+        String query = "DELETE FROM eventTable WHERE detail == '"+detail+"' AND dateTime == "+ delDateStr;
+        try{
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Remove event failed");
+        }
     }
 
 }
