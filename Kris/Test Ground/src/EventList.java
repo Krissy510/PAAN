@@ -17,16 +17,29 @@ public class EventList {
     }
 
     public void sort(){
-        int loop = total;
-        for(int i = 0; i < loop; i++ ){
-            TaskEvent temp = taskEventLinkedList.get(i); // O(n)
-            if(temp.isDue()){
-                taskEventLinkedList.remove(temp); // O(1)
-                taskEventLinkedList.add(temp); // O(1)
-                i--;
-                loop--;
+        LinkedList<TaskEvent> temp = (LinkedList<TaskEvent>) taskEventLinkedList.clone();
+        for (TaskEvent e:
+             taskEventLinkedList) {
+            if(e.isDue()){
+                passed++;
+                remain--;
+                temp.remove(e);
+                temp.add(e);
             }
         }
+        taskEventLinkedList = temp;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public int getRemain() {
+        return remain;
+    }
+
+    public int getPassed() {
+        return passed;
     }
 
     public void clear(){
