@@ -39,8 +39,14 @@ public class TaskEvent extends Task{
     }
 
     // get time
-    public String getTime(){
-        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+    // 0 -> 24 hrs
+    // 1 -> 12 hrs
+    public String getTime(int type){
+        SimpleDateFormat time;
+        if(type == 0)
+            time = new SimpleDateFormat("HH:mm");
+        else
+            time = new SimpleDateFormat("hh:mm a");
         return time.format(date);
     }
 
