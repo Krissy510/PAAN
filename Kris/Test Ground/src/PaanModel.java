@@ -20,14 +20,12 @@ public class PaanModel extends Observable {
     // data attr
     private TaskEvent mood;
     private TodoList todoList;
+    private TodoList dailyList;
     private EventList eventList;
     private LinkedList<TaskEvent> timeline;
 
 
     public PaanModel() {
-        this.todoList = new TodoList();
-        this.eventList = new EventList();
-        this.timeline = new LinkedList<>();
         this.focusDate = new Date();
         try {
             this.pdao = new PaanDAO();
@@ -59,11 +57,12 @@ public class PaanModel extends Observable {
         if(!pdao.checkDataExist("dailyTable")) pdao.insert(0,focusDate);
         loadTimeline();
         loadUserSettings();
+        loadTodoList();
+        loadDaily();
         memoLoad();
     }
 
     public void memoLoad(){
-        loadTodoList();
         loadMood();
         loadEvent();
     }
@@ -71,6 +70,7 @@ public class PaanModel extends Observable {
     // Timeline
     public void loadTimeline(){
         timeline = pdao.loadTimeline();
+        if(timeline == null) this.timeline = new LinkedList<>();
     }
 
     public LinkedList<TaskEvent> getTimelineList() {
@@ -148,11 +148,22 @@ public class PaanModel extends Observable {
 
 
     // Todolist
-    public void loadTodoList(){ todoList = pdao.loadTodoList();}
+    public void loadTodoList(){
+        todoList = pdao.loadTodoList("todoTable");
+        if(todoList == null) dailyList = new TodoList();
+    }
 
     public  LinkedList<TaskList> getTodoList(){
         return todoList.getTodoList();
     }
+
+    // Daily
+    public void loadDaily(){
+        dailyList = pdao.loadTodoList("dailyTaskTable");
+        if(dailyList == null) dailyList = new TodoList();
+    }
+
+    public LinkedList<TaskList> getDaily() {return dailyList.getTodoList();}
 
     // EventList
     public LinkedList<TaskEvent> getEventList(){
@@ -166,6 +177,7 @@ public class PaanModel extends Observable {
 
     public void loadEvent(){
         eventList = pdao.loadEvent(focusDate);
+        if(eventList == null) this.eventList = new EventList();
     }
 
     public void setDate(String date){
@@ -185,5 +197,28 @@ public class PaanModel extends Observable {
         TaskEvent temp = eventList.getOBJTask(index);
         pdao.remove(temp.getDetail(),temp.getDateObj());
         eventList.removeTask(index);
+    }
+
+    public boolean addTodoTask( String detail){
+        if(pdao.isDuplicate("todoTable",detail)) return false;
+        pdao.insert("todoTable",detail);
+        todoList.addTask(detail);
+        return true;
+    }
+
+
+    public boolean addDailyTask(String detail){
+        if(pdao.isDuplicate("dailyTaskTable",detail)) return false;
+        pdao.insert("dailyTaskTable",detail);
+        dailyList.addTask(detail);
+        return true;
+    }
+
+    public void removeTodoTask(int index){
+        pdao.remove("todoTable",todoList.getTask(index).getDetail());
+    }
+
+    public void removeDailyTask(int index){
+        pdao.remove("dailyTaskTable",dailyList.getTask(index).getDetail());
     }
 }
