@@ -18,19 +18,26 @@ public class time {
     private String day;
     private String date;
     private String month;
+    private String year;
     private String formattedDate;
 
     //Set The current Time
     public time() {
         LocalDate myTime = LocalDate.now();
         this.day = myTime.format(DateTimeFormatter.ofPattern("E "));
-        this.date = myTime.format(DateTimeFormatter.ofPattern("d"));
-        this.month = myTime.format(DateTimeFormatter.ofPattern(" MMM"));
+        this.date = myTime.format(DateTimeFormatter.ofPattern("dd"));
+        this.month = myTime.format(DateTimeFormatter.ofPattern("MM"));
+        this.year = myTime.format(DateTimeFormatter.ofPattern("YYYY"));
     }
 
     //return Time in Format(E dd MMM)
     public String getFormattedDate() {
         formattedDate = this.day + this.date + this.month;
+        return formattedDate;
+    }
+    
+    public String getFormattedDateV2() {
+        formattedDate = this.year + "-" + this.month + "-" + this.date;
         return formattedDate;
     }
 
@@ -119,5 +126,10 @@ public class time {
         else {this.date = String.valueOf(Integer.parseInt(this.date)+1);}
 
         return getFormattedDate();
+    }
+    
+    public static void main(String args[]) {
+        time t = new time();
+        System.out.println(t.getFormattedDateV2());
     }
 }

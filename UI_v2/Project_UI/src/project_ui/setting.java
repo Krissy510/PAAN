@@ -25,25 +25,26 @@ public class setting extends javax.swing.JFrame {
      * Creates new form setting
      */
     public setting() {
+        
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File("Chewy-Regular.ttf")).deriveFont(30f);
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("Chewy-Regular.ttf")).deriveFont(20f);
             GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
             g.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Chewy-Regular.ttf")));
         }
         catch(IOException | FontFormatException e){
             
         }
+        
         initComponents();
         
         updateTheme();
         
-//        if (bgColor == Color.WHITE) {lightM.setSelected(true);}
-//        else {darkM.setSelected(true);}
     }
 
     public static void updateTheme() {
         settingP.setBackground(bgColor);
         backgroundL.setForeground(fgColor);
+        timeFormatL.setForeground(fgColor);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,6 +61,9 @@ public class setting extends javax.swing.JFrame {
         backB = new javax.swing.JButton();
         lightB = new javax.swing.JToggleButton();
         darkB = new javax.swing.JToggleButton();
+        timeFormatL = new javax.swing.JLabel();
+        twelveB = new javax.swing.JToggleButton();
+        twentyFourB = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -99,34 +103,81 @@ public class setting extends javax.swing.JFrame {
             }
         });
 
+        timeFormatL.setFont(font);
+        timeFormatL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timeFormatL.setText("TIME FORMAT");
+
+        twelveB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/twelve.png"))); // NOI18N
+        twelveB.setBorderPainted(false);
+        twelveB.setContentAreaFilled(false);
+        twelveB.setFocusPainted(false);
+        twelveB.setFocusable(false);
+        twelveB.setMaximumSize(new java.awt.Dimension(60, 60));
+        twelveB.setMinimumSize(new java.awt.Dimension(60, 60));
+        twelveB.setPreferredSize(new java.awt.Dimension(60, 60));
+        twelveB.setSize(new java.awt.Dimension(60, 60));
+        twelveB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                twelveBActionPerformed(evt);
+            }
+        });
+
+        twentyFourB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/twenty-four.png"))); // NOI18N
+        twentyFourB.setBorderPainted(false);
+        twentyFourB.setContentAreaFilled(false);
+        twentyFourB.setFocusPainted(false);
+        twentyFourB.setFocusable(false);
+        twentyFourB.setMaximumSize(new java.awt.Dimension(60, 60));
+        twentyFourB.setMinimumSize(new java.awt.Dimension(60, 60));
+        twentyFourB.setPreferredSize(new java.awt.Dimension(60, 60));
+        twentyFourB.setSize(new java.awt.Dimension(60, 60));
+        twentyFourB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                twentyFourBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingPLayout = new javax.swing.GroupLayout(settingP);
         settingP.setLayout(settingPLayout);
         settingPLayout.setHorizontalGroup(
             settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(settingPLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingPLayout.createSequentialGroup()
-                .addContainerGap(73, Short.MAX_VALUE)
-                .addComponent(lightB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
-                .addComponent(darkB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68))
-            .addComponent(backgroundL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(settingPLayout.createSequentialGroup()
+                        .addGroup(settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(timeFormatL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(backgroundL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(settingPLayout.createSequentialGroup()
+                                .addComponent(lightB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21)
+                                .addComponent(darkB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(settingPLayout.createSequentialGroup()
+                                .addComponent(twelveB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(twentyFourB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         settingPLayout.setVerticalGroup(
             settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(settingPLayout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(backgroundL, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(23, 23, 23)
+                .addGroup(settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(darkB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lightB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(darkB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(backgroundL, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(settingPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(timeFormatL, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(twelveB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(twentyFourB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -150,6 +201,7 @@ public class setting extends javax.swing.JFrame {
 
     private void lightBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lightBActionPerformed
         // TODO add your handling code here:
+        mainWindow.getPaanModel().updateSettings("theme",0);
         bgColor = Color.WHITE;
         fgColor = Color.BLACK;
         updateTheme();
@@ -160,6 +212,7 @@ public class setting extends javax.swing.JFrame {
 
     private void darkBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darkBActionPerformed
         // TODO add your handling code here:
+        mainWindow.getPaanModel().updateSettings("theme",1);
         bgColor = Color.BLACK;
         fgColor = Color.WHITE;
         updateTheme();
@@ -167,6 +220,20 @@ public class setting extends javax.swing.JFrame {
         mainWindow.fgColor = fgColor;
         mainWindow.updateTheme();
     }//GEN-LAST:event_darkBActionPerformed
+
+    private void twelveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_twelveBActionPerformed
+        // TODO add your handling code here:
+        mainWindow.getPaanModel().updateSettings("timeFormat",1);
+        mainWindow.clearTimeLine();
+        mainWindow.setTimeLine();
+    }//GEN-LAST:event_twelveBActionPerformed
+
+    private void twentyFourBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_twentyFourBActionPerformed
+        // TODO add your handling code here:
+        mainWindow.getPaanModel().updateSettings("timeFormat",0);
+        mainWindow.clearTimeLine();
+        mainWindow.setTimeLine();
+    }//GEN-LAST:event_twentyFourBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,6 +277,9 @@ public class setting extends javax.swing.JFrame {
     private static javax.swing.JToggleButton darkB;
     private static javax.swing.JToggleButton lightB;
     private static javax.swing.JPanel settingP;
+    private static javax.swing.JLabel timeFormatL;
+    private javax.swing.JToggleButton twelveB;
+    private javax.swing.JToggleButton twentyFourB;
     // End of variables declaration//GEN-END:variables
 
 }
