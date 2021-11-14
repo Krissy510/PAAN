@@ -182,8 +182,9 @@ public class PaanModel extends Observable {
 
     public void setDate(String date){
         try {
+            Date cDate = new Date();
+            if(date.equals(new SimpleDateFormat("yyyy-MM-dd").format(cDate))) resetFocusDate();
             this.focusDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
@@ -216,9 +217,37 @@ public class PaanModel extends Observable {
 
     public void removeTodoTask(int index){
         pdao.remove("todoTable",todoList.getTask(index).getDetail());
+        todoList.deleteTask(index);
     }
 
     public void removeDailyTask(int index){
         pdao.remove("dailyTaskTable",dailyList.getTask(index).getDetail());
+        dailyList.deleteTask(index);
     }
+
+    public void todoListCheck(int index){
+        pdao.updateTodo("todoTable",1,todoList.getTask(index).getDetail());
+        loadTodoList();
+    }
+
+    public void todoListUncheck(int index){
+        pdao.updateTodo("todoTable",0,todoList.getTask(index).getDetail());
+        loadTodoList();
+    }
+
+    public void dailyListCheck(int index){
+        pdao.updateTodo("dailyTaskTable",1,dailyList.getTask(index).getDetail());
+        loadDaily();
+    }
+
+    public void dailyListUncheck(int index){
+        pdao.updateTodo("dailyTaskTable",0,dailyList.getTask(index).getDetail());
+        loadDaily();
+    }
+
+    public boolean checkReset(){
+        return !pdao.getResetDate().after(new Date());
+    }
+
+
 }
