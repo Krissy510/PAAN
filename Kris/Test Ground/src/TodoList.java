@@ -45,38 +45,6 @@ public class TodoList {
         total--;
     }
 
-    // Check Task
-    public void check(int index){ // O(n)
-        TaskList temp = todoLinkedList.get(index); // O(n)
-        todoLinkedList.remove(temp); // O(1)
-        todoLinkedList.add(temp); // O(1)
-        checked++;
-        unchecked--;
-    }
-
-    // Uncheck Task
-    public void uncheck(int index){ // O(n)
-        TaskList temp = todoLinkedList.get(index); // O(n)
-        todoLinkedList.remove(temp); // O(1)
-        temp.setDone(false); // O(1)
-        todoLinkedList.add(unchecked, temp); // O(n)
-        checked--;
-        unchecked++;
-    }
-
-    // Check if Task is checked Tester
-    public boolean isCheck(int index){
-        return todoLinkedList.get(index).getStatus();
-    } // O(n)
-
-    // Check if task exist Tester
-    public boolean isExist(int index){
-        return index >= 0  && total > 0 && index < total;
-    }  // O(1)
-
-    // Check if list is empty Tester
-    public boolean isEmpty(){return total == 0;} // O(1)
-
     // get OBJ task from index
     public TaskList getTask(int index){
         return todoLinkedList.get(index);
