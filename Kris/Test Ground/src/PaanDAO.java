@@ -3,8 +3,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 public class PaanDAO {
     // sql attr
@@ -109,15 +111,17 @@ public class PaanDAO {
 
     // For event and mood
     public void insert(String table,String detail,Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf;
+        if(table.equals("mood"))sdf = new SimpleDateFormat("yyyy-MM-dd");
+        else sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String query = "INSERT INTO " + table+"Table (detail,dateTime) VALUES( '"+detail+"','"+sdf.format(date)+"')" ;
-        System.out.println(query);
         try{
             st.executeUpdate(query);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
 
 
     // Update Method
@@ -129,6 +133,21 @@ public class PaanDAO {
             System.out.println(e.getMessage());
         }
     }
+
+    // for event and mood
+    public void update(String table, String detail, Date date){
+        String dateStr;
+        if(table.equals("event")) dateStr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date)+"'";
+        else dateStr = "'"+new SimpleDateFormat("yyyy-MM-dd").format(date)+"'";
+        String query = "UPDATE "+table+"Table SET detail = '"+detail+"' WHERE dateTime = "+dateStr;
+        try{
+            st.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 
 
     // Load Method
@@ -146,16 +165,17 @@ public class PaanDAO {
         }
     }
 
-    public EventList loadTimeline(){
+    public LinkedList<TaskEvent> loadTimeline(){
         Date current = new Date(); // Current  date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String query = "SELECT * FROM eventTable " + "WHERE  dateTime >= " + "\"" +sdf.format(current) + "\"" + " ORDER BY dateTime ASC";
-        EventList temp = new EventList();
+        LinkedList<TaskEvent> temp = new LinkedList<>();
         try {
             rs = st.executeQuery(query);
             while(rs.next()){
-                temp.addTask(rs.getString("detail"),
-                        rs.getString("dateTime"));
+                temp.add((TaskEvent)TaskFactory.createTask("event",
+                        rs.getString("detail"),
+                        rs.getString("dateTime")));
             }
             return temp;
         } catch (SQLException e) {
@@ -187,6 +207,24 @@ public class PaanDAO {
             rs = st.executeQuery(query);
             if(!rs.isClosed()) return  (TaskEvent) TaskFactory.createTask(rs.getString("detail"),date);
         }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public EventList loadEvent(Date date){
+        String dateCstr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date)+"'";
+        String dateSstr = (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+(date.getDate()+1);
+        try {
+            Date temp = new SimpleDateFormat("yyyy-MM-dd").parse(dateSstr);
+            dateSstr = "'"+new SimpleDateFormat("yyyy-MM-dd").format(temp)+"'";
+            EventList eventList = new EventList();
+            rs = st.executeQuery("SELECT * FROM eventTable WHERE dateTime >= "+dateCstr+" AND dateTime < "+dateSstr+" ORDER BY datetime ASC");
+            while(rs.next()){
+                eventList.addTask(rs.getString(1),rs.getString(2));
+            }
+            return eventList;
+        } catch (ParseException | SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
