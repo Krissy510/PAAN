@@ -283,8 +283,29 @@ public class PaanDAO {
         try{
             st.execute(query);
         } catch (SQLException e) {
+            System.out.println("Remove "+table+" failed");
+        }
+    }
+
+    // update
+    public void updateTodo(String table,int status, String detail){
+        String query = "UPDATE "+table+" SET status = "+status+" WHERE detail = '"+detail+"';";
+        try{
+            st.execute(query);
+        } catch (SQLException e) {
             System.out.println("Remove "+table+"failed");
         }
     }
 
+    public Date getResetDate(){
+        String query = "SELECT dateTime FROM dailyTable";
+        try {
+            rs = st.executeQuery(query);
+            return new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString(1));
+
+        } catch (SQLException | ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
