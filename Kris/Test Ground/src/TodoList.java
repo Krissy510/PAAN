@@ -77,23 +77,6 @@ public class TodoList {
     // Check if list is empty Tester
     public boolean isEmpty(){return total == 0;} // O(1)
 
-    // get OBJ task from index
-    public TaskList getTask(int index){
-        return todoLinkedList.get(index);
-    }
-
-    public int getTotal(){
-        return total;
-    }
-
-    public int getChecked() {
-        return checked;
-    }
-
-    public int getUnchecked() {
-        return unchecked;
-    }
-
     // Display all Task in Todolist Tester
     public void display(){
         System.out.println("Total task: "+total);
