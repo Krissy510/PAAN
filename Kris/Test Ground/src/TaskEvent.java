@@ -56,6 +56,10 @@ public class TaskEvent extends Task{
         return time.format(date);
     }
 
+    public Date getDateObj(){
+        return date;
+    }
+
     // set due date with OBJ
     public void setDate(Date duedate) {
         this.date = duedate;
@@ -80,6 +84,6 @@ public class TaskEvent extends Task{
 
     @Override
     public String toString() {
-        return getDetail() + " " + date;
+        return getDetail() + " " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date);
     }
 }

@@ -67,6 +67,10 @@ public class EventList {
         total--;
     }
 
+    public TaskEvent getOBJTask(int index){
+        return taskEventLinkedList.get(index);
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();

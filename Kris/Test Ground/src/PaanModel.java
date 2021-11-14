@@ -20,14 +20,12 @@ public class PaanModel extends Observable {
     // data attr
     private TaskEvent mood;
     private TodoList todoList;
+    private TodoList dailyList;
     private EventList eventList;
     private LinkedList<TaskEvent> timeline;
 
 
     public PaanModel() {
-        this.todoList = new TodoList();
-        this.eventList = new EventList();
-        this.timeline = new LinkedList<>();
         this.focusDate = new Date();
         try {
             this.pdao = new PaanDAO();
@@ -59,11 +57,12 @@ public class PaanModel extends Observable {
         if(!pdao.checkDataExist("dailyTable")) pdao.insert(0,focusDate);
         loadTimeline();
         loadUserSettings();
+        loadTodoList();
+        loadDaily();
         memoLoad();
     }
 
     public void memoLoad(){
-        loadTodoList();
         loadMood();
         loadEvent();
     }
@@ -71,6 +70,7 @@ public class PaanModel extends Observable {
     // Timeline
     public void loadTimeline(){
         timeline = pdao.loadTimeline();
+        if(timeline == null) this.timeline = new LinkedList<>();
     }
 
     public LinkedList<TaskEvent> getTimelineList() {
@@ -130,22 +130,40 @@ public class PaanModel extends Observable {
         }
     }
 
-    public void addEventTask(String detail, String date){
+    public boolean addEventTask(String detail, String date){
         try {
-            pdao.insert("event",detail,new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date));
+            Date temp = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+            if (pdao.isDuplicate(detail,temp)){
+                System.out.println("Task already existed");
+                return false;
+            }
+            pdao.insert("event",detail,temp);
             eventList.addTask(detail,date);
+            return true;
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
 
 
     // Todolist
-    public void loadTodoList(){ todoList = pdao.loadTodoList();}
+    public void loadTodoList(){
+        todoList = pdao.loadTodoList("todoTable");
+        if(todoList == null) dailyList = new TodoList();
+    }
 
     public  LinkedList<TaskList> getTodoList(){
         return todoList.getTodoList();
     }
+
+    // Daily
+    public void loadDaily(){
+        dailyList = pdao.loadTodoList("dailyTaskTable");
+        if(dailyList == null) dailyList = new TodoList();
+    }
+
+    public LinkedList<TaskList> getDaily() {return dailyList.getTodoList();}
 
     // EventList
     public LinkedList<TaskEvent> getEventList(){
@@ -154,17 +172,19 @@ public class PaanModel extends Observable {
 
     // reset date
     public void resetFocusDate(){
-        focusDate = new Date();
+        focusDate = new Date(); // Current
     }
 
     public void loadEvent(){
         eventList = pdao.loadEvent(focusDate);
+        if(eventList == null) this.eventList = new EventList();
     }
 
     public void setDate(String date){
         try {
+            Date cDate = new Date();
+            if(date.equals(new SimpleDateFormat("yyyy-MM-dd").format(cDate))) resetFocusDate();
             this.focusDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
@@ -173,4 +193,61 @@ public class PaanModel extends Observable {
     public Date getFocusDate() {
         return focusDate;
     }
+
+    public void removeEventTask(int index){
+        TaskEvent temp = eventList.getOBJTask(index);
+        pdao.remove(temp.getDetail(),temp.getDateObj());
+        eventList.removeTask(index);
+    }
+
+    public boolean addTodoTask( String detail){
+        if(pdao.isDuplicate("todoTable",detail)) return false;
+        pdao.insert("todoTable",detail);
+        todoList.addTask(detail);
+        return true;
+    }
+
+
+    public boolean addDailyTask(String detail){
+        if(pdao.isDuplicate("dailyTaskTable",detail)) return false;
+        pdao.insert("dailyTaskTable",detail);
+        dailyList.addTask(detail);
+        return true;
+    }
+
+    public void removeTodoTask(int index){
+        pdao.remove("todoTable",todoList.getTask(index).getDetail());
+        todoList.deleteTask(index);
+    }
+
+    public void removeDailyTask(int index){
+        pdao.remove("dailyTaskTable",dailyList.getTask(index).getDetail());
+        dailyList.deleteTask(index);
+    }
+
+    public void todoListCheck(int index){
+        pdao.updateTodo("todoTable",1,todoList.getTask(index).getDetail());
+        loadTodoList();
+    }
+
+    public void todoListUncheck(int index){
+        pdao.updateTodo("todoTable",0,todoList.getTask(index).getDetail());
+        loadTodoList();
+    }
+
+    public void dailyListCheck(int index){
+        pdao.updateTodo("dailyTaskTable",1,dailyList.getTask(index).getDetail());
+        loadDaily();
+    }
+
+    public void dailyListUncheck(int index){
+        pdao.updateTodo("dailyTaskTable",0,dailyList.getTask(index).getDetail());
+        loadDaily();
+    }
+
+    public boolean checkReset(){
+        return !pdao.getResetDate().after(new Date());
+    }
+
+
 }

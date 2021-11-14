@@ -122,6 +122,15 @@ public class PaanDAO {
         }
     }
 
+    // For Daily and Todolist
+    public void insert(String table, String detail){
+        String query = "INSERT INTO " + table + " (status,detail) VALUES( 0,'"+detail+"')";
+        try{
+            st.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 
     // Update Method
@@ -184,8 +193,8 @@ public class PaanDAO {
         }
     }
 
-    public TodoList loadTodoList(){
-        String query = "SELECT * FROM todoTable ORDER BY status ASC";
+    public TodoList loadTodoList(String tableName){
+        String query = "SELECT * FROM "+tableName+" ORDER BY status ASC";
         TodoList temp = new TodoList();
         try {
             rs = st.executeQuery(query);
@@ -200,8 +209,7 @@ public class PaanDAO {
     }
 
     public TaskEvent loadMood(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateStr = sdf.format(date);
+        String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
         String query = "SELECT * FROM moodTable WHERE dateTime == '" + dateStr + "'";
         try{
             rs = st.executeQuery(query);
@@ -213,7 +221,7 @@ public class PaanDAO {
     }
 
     public EventList loadEvent(Date date){
-        String dateCstr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date)+"'";
+        String dateCstr = "'"+new SimpleDateFormat("yyyy-MM-dd").format(date)+"'";
         String dateSstr = (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+(date.getDate()+1);
         try {
             Date temp = new SimpleDateFormat("yyyy-MM-dd").parse(dateSstr);
@@ -223,6 +231,7 @@ public class PaanDAO {
             while(rs.next()){
                 eventList.addTask(rs.getString(1),rs.getString(2));
             }
+            eventList.sort();
             return eventList;
         } catch (ParseException | SQLException e) {
             System.out.println(e.getMessage());
@@ -230,4 +239,73 @@ public class PaanDAO {
         return null;
     }
 
+
+    // event
+    public boolean isDuplicate(String detail, Date checkDate){
+            String checkDateStr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(checkDate)+"'";
+            String query = "SELECT * FROM eventTable WHERE detail == '"+detail+"' AND dateTime == "+checkDateStr;
+            try{
+                rs = st.executeQuery(query);
+                return !rs.isClosed();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+            return true;
+    }
+
+    // TodoList and daily
+    public boolean isDuplicate(String table,String detail){
+        String query = "SELECT * FROM "+table+" WHERE detail == '"+detail+"'";
+        try{
+            rs = st.executeQuery(query);
+            return !rs.isClosed();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
+
+    // event
+    public void remove(String detail, Date delDate){
+        String delDateStr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(delDate)+"'";
+        String query = "DELETE FROM eventTable WHERE detail == '"+detail+"' AND dateTime == "+ delDateStr;
+        try{
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Remove event failed");
+        }
+    }
+
+    // Todolist
+    public void remove(String table, String detail){
+        String query = "DELETE FROM "+table+" WHERE detail == '"+detail+"'";
+        try{
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Remove "+table+" failed");
+        }
+    }
+
+    // update
+    public void updateTodo(String table,int status, String detail){
+        String query = "UPDATE "+table+" SET status = "+status+" WHERE detail = '"+detail+"';";
+        try{
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Remove "+table+"failed");
+        }
+    }
+
+    public Date getResetDate(){
+        String query = "SELECT dateTime FROM dailyTable";
+        try {
+            rs = st.executeQuery(query);
+            return new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString(1));
+
+        } catch (SQLException | ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

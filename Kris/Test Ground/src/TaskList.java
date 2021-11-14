@@ -30,9 +30,6 @@ public class TaskList extends Task{
         this.status = status;
     }
 
-    // set done attr
-    public void setDone(boolean done){ this.status = done;}
-
     // return status of the task
     public boolean getStatus(){ return status;}
 
