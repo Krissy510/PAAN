@@ -130,13 +130,20 @@ public class PaanModel extends Observable {
         }
     }
 
-    public void addEventTask(String detail, String date){
+    public boolean addEventTask(String detail, String date){
         try {
-            pdao.insert("event",detail,new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date));
+            Date temp = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+            if (pdao.isDuplicate(detail,temp)){
+                System.out.println("Task already existed");
+                return false;
+            }
+            pdao.insert("event",detail,temp);
             eventList.addTask(detail,date);
+            return true;
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
 
 
@@ -154,7 +161,7 @@ public class PaanModel extends Observable {
 
     // reset date
     public void resetFocusDate(){
-        focusDate = new Date();
+        focusDate = new Date(); // Current
     }
 
     public void loadEvent(){
@@ -172,5 +179,11 @@ public class PaanModel extends Observable {
 
     public Date getFocusDate() {
         return focusDate;
+    }
+
+    public void removeEventTask(int index){
+        TaskEvent temp = eventList.getOBJTask(index);
+        pdao.remove(temp.getDetail(),temp.getDateObj());
+        eventList.removeTask(index);
     }
 }
