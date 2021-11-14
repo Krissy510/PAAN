@@ -1,4 +1,6 @@
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -13,19 +15,19 @@ public class PaanModel extends Observable {
     private Date focusDate;
 
     // DAO
-    PaanDAO pdao;
+    private PaanDAO pdao;
 
     // data attr
     private TaskEvent mood;
     private TodoList todoList;
     private EventList eventList;
-    private EventList timeline;
+    private LinkedList<TaskEvent> timeline;
 
 
     public PaanModel() {
         this.todoList = new TodoList();
         this.eventList = new EventList();
-        this.timeline = new EventList();
+        this.timeline = new LinkedList<>();
         this.focusDate = new Date();
         try {
             this.pdao = new PaanDAO();
@@ -57,11 +59,13 @@ public class PaanModel extends Observable {
         if(!pdao.checkDataExist("dailyTable")) pdao.insert(0,focusDate);
         loadTimeline();
         loadUserSettings();
+        memoLoad();
+    }
+
+    public void memoLoad(){
         loadTodoList();
         loadMood();
-        if(mood == null){
-            this.mood = (TaskEvent) TaskFactory.createTask("event", "None");
-        }
+        loadEvent();
     }
 
     // Timeline
@@ -70,7 +74,7 @@ public class PaanModel extends Observable {
     }
 
     public LinkedList<TaskEvent> getTimelineList() {
-        return timeline.getTaskEventLinkedList();
+        return timeline;
     }
 
     // Setting
@@ -80,6 +84,12 @@ public class PaanModel extends Observable {
     }
 
     // Use for update val of setting both local and at the db
+    // THEME
+    // 0 : light
+    // 1 : dark
+    // TIME FORMAT
+    // 0 : 24 hrs
+    // 1 : 12 hrs format
     // Ex. setSettings("theme", 1);
     public void updateSettings(String type, int val){
         if(type.equals("theme")) theme = val;
@@ -87,14 +97,10 @@ public class PaanModel extends Observable {
         pdao.updateSettings(type,val);
     }
 
-    // 0 : light
-    // 1 : dark
     public int getTheme(){
         return theme;
     }
 
-    // 0 : 24 hrs
-    // 1 : 12 hrs format
     public int getTimeFormat(){
         return timeFormat;
     }
@@ -109,17 +115,28 @@ public class PaanModel extends Observable {
         mood = pdao.loadMood(focusDate);
     }
 
-    public void insertMood(String felt){
-        mood.setDetail(felt);
-        pdao.insert("mood",felt,focusDate);
-    }
-
     public String getMood(){
-        return mood != null? mood.getDetail():null ;
+        return mood != null? mood.getDetail():"None" ;
     }
 
-    public void updateMood(){
+    public void updateMood(String felt){
+        if(mood == null){
+            pdao.insert("mood",felt,focusDate);
+            mood = (TaskEvent) TaskFactory.createTask(felt,focusDate);
+        }
+        else{
+            pdao.update("mood",felt,focusDate);
+            mood.setDetail(felt);
+        }
+    }
 
+    public void addEventTask(String detail, String date){
+        try {
+            pdao.insert("event",detail,new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date));
+            eventList.addTask(detail,date);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -135,7 +152,25 @@ public class PaanModel extends Observable {
         return eventList.getTaskEventLinkedList();
     }
 
+    // reset date
+    public void resetFocusDate(){
+        focusDate = new Date();
+    }
 
+    public void loadEvent(){
+        eventList = pdao.loadEvent(focusDate);
+    }
 
+    public void setDate(String date){
+        try {
+            this.focusDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Date getFocusDate() {
+        return focusDate;
+    }
 }
