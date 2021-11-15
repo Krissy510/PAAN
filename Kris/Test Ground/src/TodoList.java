@@ -28,12 +28,12 @@ public class TodoList {
         total++;
     }
 
-    // Overload Task
-    public void addTask(String detail, int status){ // O(1)
-        todoLinkedList.add((TaskList) TaskFactory.createTask(detail,status==1)); // O(1)
-        if(status==1)checked++;
-        else unchecked++;
-        total++;
+    public boolean isDuplicate(String detail){
+        for (TaskList e:
+             todoLinkedList) {
+            if (e.getDetail().equals(detail)) return true;
+        }
+        return false;
     }
 
     // Delete Task
