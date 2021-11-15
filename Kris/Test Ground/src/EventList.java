@@ -55,12 +55,6 @@ public class EventList {
         return false;
     }
 
-    public void addTask(String detail){ // O(n)
-        taskEventLinkedList.add(remain,(TaskEvent) TaskFactory.createTask("event", detail));
-        remain++;
-        total++;
-    }
-
     public void addTask(String detail, String date){ // O(n)
         taskEventLinkedList.add(remain, (TaskEvent) TaskFactory.createTask("event",detail, date));
         remain++;
