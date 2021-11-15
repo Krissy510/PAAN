@@ -7,13 +7,6 @@ public class TaskEvent extends Task{
     private Date date;
     private final SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-
-    // default constructor when there is none
-    public TaskEvent(){
-        super();
-        this.date = new Date();
-    }
-
     // OVERLOAD: constructor with only String
     public TaskEvent(String detail) {
         super(detail);
@@ -38,7 +31,7 @@ public class TaskEvent extends Task{
         }
     }
 
-    // get time
+    // Get time
     // 0 -> 24 hrs
     // 1 -> 12 hrs
     public String getTime(int type){
@@ -50,11 +43,13 @@ public class TaskEvent extends Task{
         return time.format(date);
     }
 
-    // get date
+    /// Get date
+    // String
     public String getStrDate(){
         return new SimpleDateFormat("dd/MM/yyyy").format(date);
     }
 
+    // Date Obj
     public Date getDate(){
         return date;
     }

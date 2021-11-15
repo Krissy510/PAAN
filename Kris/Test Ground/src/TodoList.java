@@ -6,7 +6,7 @@ public class TodoList {
     private int checked;
     private int total;
 
-    private LinkedList<TaskList> todoLinkedList;
+    private final LinkedList<TaskList> todoLinkedList;
 
     // Constructor
     public TodoList(){
@@ -28,6 +28,7 @@ public class TodoList {
         total++;
     }
 
+    // isDuplicate
     public boolean isDuplicate(String detail){
         for (TaskList e:
              todoLinkedList) {
@@ -56,33 +57,20 @@ public class TodoList {
         return null;
     }
 
+    // Get total
     public int getTotal(){
         return total;
     }
-
+    // Get check
     public int getChecked() {
         return checked;
     }
-
+    // Get uncheck
     public int getUnchecked() {
         return unchecked;
     }
 
-    // Display all Task in Todolist Tester
-    public void display(){
-        System.out.println("Total task: "+total);
-        System.out.println("Checked: "+checked);
-        System.out.println("Unchecked: "+unchecked);
-        System.out.println("Index\t\tStatus\t\tDetail");
-        int i = 0;
-        for(TaskList t : todoLinkedList){
-            System.out.print(i+"\t\t\t");
-            System.out.println(t.toString());
-            i++;
-        }
-        System.out.println();
-    }
-
+    // Get linked list todolist
     public LinkedList<TaskList> getTodoList() {
         return todoLinkedList;
     }

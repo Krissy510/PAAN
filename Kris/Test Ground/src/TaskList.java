@@ -1,16 +1,7 @@
 public class TaskList extends Task{
-    /*
-    TaskList inherit from Task
-    Will already had
-    - detail : String
-    + Task() : void
-        Set details = ""
-    + getDetail() : String
-    + setDetail(String detail) : void
-     */
 
     // boolean to check if the task already done or not
-    private boolean status;
+    private final boolean status;
 
     // default constructor
     public TaskList() {

@@ -1,14 +1,8 @@
 import java.util.Date;
 
 public class TaskFactory {
-    /*
-    Creating task require detail : String
-    Because every method in TaskFactory will call
-    this.detail = detail
-     */
 
-    // TaskList
-
+    // Create Task for list and event with default
     public static Task createTask(String type, String detail){
         if(type == null){
             return null;
@@ -22,15 +16,17 @@ public class TaskFactory {
         return null;
     }
 
+    // Overload: Create TaskList with specific detail and boolean
     public static Task createTask(String detail, boolean done){
         return new TaskList(detail, done);
     }
 
-    /// NOTE: hr -> 24Hrs format
+    // Overload: Create TaskEvent with specific detail and date
     public static Task createTask(String type,String detail, String date){ // this.duedate = "day/month/year hr:m"
         return new TaskEvent(detail, date);
     }
 
+    // Overload: Create TaskEvent with specific detail and date
     public static Task createTask(String detail, Date date){ // this.duedate = "day/month/year hr:m"
         return new TaskEvent(detail, date);
     }

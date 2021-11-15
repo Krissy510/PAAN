@@ -9,6 +9,7 @@ public class Table {
     private Task task;
     private SimpleDateFormat sdf;
 
+    // Constructor
     public Table(int day, String startTime, String endTime, String task) {
         sdf =  new SimpleDateFormat("HH:mm");
         this.day = day;
@@ -20,8 +21,11 @@ public class Table {
             System.out.println(e.getMessage());
         }
         this.task = new Task(task);
-        }
+    }
 
+    /// Getter
+
+    // Value
     public int getDay() {
         return day;
     }
@@ -30,12 +34,13 @@ public class Table {
         return startTime;
     }
 
-    public String getStrStartTime() {
-        return sdf.format(startTime);
-    }
-
     public Date getEndTime() {
         return endTime;
+    }
+
+    // String
+    public String getStrStartTime() {
+        return sdf.format(startTime);
     }
 
     public String getStrEndTime() {
@@ -46,16 +51,16 @@ public class Table {
         return task.getDetail();
     }
 
-    public String getStartHour(){
+    public String getStrStartHour(){
         return new SimpleDateFormat("HH").format(startTime);
     }
-    public String getEndHour(){
+    public String getStrEndHour(){
         return new SimpleDateFormat("HH").format(endTime);
     }
-    public String getStartMin(){
+    public String getStrStartMin(){
         return new SimpleDateFormat("mm").format(startTime);
     }
-    public String getEndMin(){
+    public String getStrEndMin(){
         return new SimpleDateFormat("mm").format(endTime);
     }
 }
