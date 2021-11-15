@@ -37,17 +37,23 @@ public class TodoList {
     }
 
     // Delete Task
-    public void deleteTask(int index){ // O(n)
-        TaskList temp = todoLinkedList.get(index); // O(n)
-        if(temp.getStatus()) checked--;  // O(1)
-        else unchecked--;
-        todoLinkedList.remove(temp); // O(1)
-        total--;
+    public void deleteTask(String detail){ // O(n)
+        TaskList temp = getTask(detail); // O(n)
+        if(temp != null) {
+            if (temp.getStatus()) checked--;  // O(1)
+            else unchecked--;
+            todoLinkedList.remove(temp); // O(1)
+            total--;
+        }
     }
 
     // get OBJ task from index
-    public TaskList getTask(int index){
-        return todoLinkedList.get(index);
+    public TaskList getTask(String detail){
+        for (TaskList e:
+             todoLinkedList) {
+            if(e.getDetail().equals(detail)) return e;
+        }
+        return null;
     }
 
     public int getTotal(){
