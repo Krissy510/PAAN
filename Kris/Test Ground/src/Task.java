@@ -1,4 +1,4 @@
-public abstract class Task {
+public class Task {
     // Task description
     private String detail;
 

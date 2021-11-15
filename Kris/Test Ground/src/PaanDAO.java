@@ -36,9 +36,9 @@ public class PaanDAO {
         else query += "Table'";
         try{
             rs = st.executeQuery(query);
-            return rs.getString(1) != null;
+            return !rs.isClosed();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println(tableName + " is missing.");
         }
         return false;
     }
@@ -76,6 +76,9 @@ public class PaanDAO {
                 break;
             case "userSettings":
                 command += " (theme INTEGER NOT NULL, timeFormat INTEGER NOT NULL);";
+                break;
+            case "time":
+                command += "Table (day INTEGER NOT NULL, startTime TEXT,endTime TEXT,task TEXT);";
                 break;
         }
         try{
@@ -240,31 +243,6 @@ public class PaanDAO {
     }
 
 
-    // event
-    public boolean isDuplicate(String detail, Date checkDate){
-            String checkDateStr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(checkDate)+"'";
-            String query = "SELECT * FROM eventTable WHERE detail == '"+detail+"' AND dateTime == "+checkDateStr;
-            try{
-                rs = st.executeQuery(query);
-                return !rs.isClosed();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-            return true;
-    }
-
-    // TodoList and daily
-    public boolean isDuplicate(String table,String detail){
-        String query = "SELECT * FROM "+table+" WHERE detail == '"+detail+"'";
-        try{
-            rs = st.executeQuery(query);
-            return !rs.isClosed();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return true;
-    }
-
 
     // event
     public void remove(String detail, Date delDate){
@@ -308,4 +286,45 @@ public class PaanDAO {
         }
         return null;
     }
+
+    public void clearDailyTask(){
+        String query = "UPDATE dailyTaskTable SET status = 0";
+        try {
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Fail at clearDailyTask()");
+        }
+    }
+    // Update drink
+    public void updateDaily(int val){
+        String query = "UPDATE dailyTable SET drink = "+val;
+        try {
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Fail at updateDaily");
+        }
+    }
+    // Update date after clear
+    public void updateDaily(Date newDate){
+        String tmrw = (newDate.getYear()+1900)+"-"+(newDate.getMonth()+1)+"-"+(newDate.getDate()+1);
+        String query = "UPDATE dailyTable SET dateTime = '"+tmrw+"'";
+        try {
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Fail at updateDaily");
+        }
+    }
+
+    public int loadDrink(){
+        String query =  "SELECT drink FROM dailyTable";
+        try{
+            rs = st.executeQuery(query);
+            if(!rs.isClosed()) return rs.getInt(1);
+        } catch (SQLException e) {
+            System.out.println("Failed at loadDrink");
+        }
+        return 0;
+    }
+
+//    public  loadTimeTable
 }

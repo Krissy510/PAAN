@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.LinkedList;
 
 public class EventList {
@@ -44,6 +45,14 @@ public class EventList {
 
     public void clear(){
         taskEventLinkedList.clear();
+    }
+
+    public boolean isDuplicate(String detail, String time){
+        for (TaskEvent e:
+             taskEventLinkedList) {
+            if(e.getTime(0).equals(time) && e.getDetail().equals(detail)) return true;
+        }
+        return false;
     }
 
     public void addTask(String detail){ // O(n)
