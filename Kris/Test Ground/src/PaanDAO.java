@@ -326,5 +326,22 @@ public class PaanDAO {
         return 0;
     }
 
-//    public  loadTimeTable
+    public TimeTable loadTimeTable(){
+        String query =  "SELECT * FROM timeTable ORDER BY day ASC";
+        try{
+            rs = st.executeQuery(query);
+            TimeTable temp = new TimeTable();
+            while(rs.next()) {
+                temp.add(rs.getInt("day"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("task"));
+            }
+            return temp;
+        } catch (SQLException e) {
+            System.out.println("Failed at load timetable");
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
