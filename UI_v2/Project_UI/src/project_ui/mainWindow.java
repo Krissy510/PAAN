@@ -331,6 +331,11 @@ public class mainWindow extends javax.swing.JFrame {
 
     private void dailyBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dailyBActionPerformed
         // TODO add your handling code here:
+        setVisible(false);
+        new DailyForm().setVisible(true);    
+        DailyForm.bgColor = bgColor;
+        DailyForm.fgColor = fgColor;
+        DailyForm.updateTheme();
     }//GEN-LAST:event_dailyBActionPerformed
 
     private void memoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_memoBActionPerformed
