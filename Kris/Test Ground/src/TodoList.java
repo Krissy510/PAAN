@@ -49,15 +49,6 @@ public class TodoList {
         }
     }
 
-    // get OBJ task from index
-    public TaskList getTask(String detail){
-        for (TaskList e:
-             todoLinkedList) {
-            if(e.getDetail().equals(detail)) return e;
-        }
-        return null;
-    }
-
     // Get total
     public int getTotal(){
         return total;
