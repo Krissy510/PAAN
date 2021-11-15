@@ -24,6 +24,7 @@ public class PaanModel extends Observable {
     private TodoList dailyList;
     private EventList eventList;
     private LinkedList<TaskEvent> timeline;
+    private TimeTable timeTable;
 
 
     public PaanModel() {
@@ -66,6 +67,8 @@ public class PaanModel extends Observable {
         if(!pdao.checkDataExist("dailyTable")) pdao.insert(0,focusDate);
         loadDailyTask();
         loadDrink();
+        // Table
+        loadTimeTable();
     }
 
     public void memoLoad(){
@@ -285,4 +288,16 @@ public class PaanModel extends Observable {
         this.drink = pdao.loadDrink();
     }
 
+    public void loadTimeTable(){
+        this.timeTable = pdao.loadTimeTable();
+        if(timeTable == null) this.timeTable = new TimeTable();
+    }
+
+    public TimeTable getTimeTable(){
+        return timeTable;
+    }
+
+    public LinkedList<Table> getTimeTabelList(){
+        return timeTable.getTableList();
+    }
 }
