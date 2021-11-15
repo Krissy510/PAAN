@@ -14,6 +14,7 @@ public class PaanDAO {
     private Statement st;
     private ResultSet rs;
 
+    // To establish a connect to sqlite Database
     private void connect() {
         cnn = null;
         try {
@@ -23,13 +24,15 @@ public class PaanDAO {
         }
     }
 
-    // Constructor
+    // Default Constructor
     public PaanDAO() throws SQLException {
         this.connect();
         if(cnn != null) this.st = cnn.createStatement();
     }
 
-    // Check Method
+
+    /// Utility
+    // Check Table Exist method
     public boolean checkExist(String tableName){
         String query = "SELECT name FROM sqlite_master WHERE name='"+tableName;
         if(tableName.equals("userSettings")) query += "'";
@@ -43,6 +46,7 @@ public class PaanDAO {
         return false;
     }
 
+    // Check if that table has a data
     public boolean checkDataExist(String tableName){
         String query = "SELECT * FROM "+tableName;
         try{
@@ -54,7 +58,7 @@ public class PaanDAO {
         return false;
     }
 
-    // Create Table
+    // Create Table in case table is missing
     public void createTable(String tableName){
         String command = "CREATE TABLE IF NOT EXISTS "+tableName;
         switch (tableName) {
@@ -88,8 +92,18 @@ public class PaanDAO {
         }
     }
 
+    // Clear all status in DailyTask
+    public void clearDailyTask(){
+        String query = "UPDATE dailyTaskTable SET status = 0";
+        try {
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Fail at clearDailyTask()");
+        }
+    }
 
-    // Insert Method
+
+    /// Insert Method
     // For userSettings
     public void insert(int theme, int timeFormat){
         String query = "INSERT INTO userSettings(theme,timeFormat) VALUES("+theme+","+timeFormat+")";
@@ -112,7 +126,7 @@ public class PaanDAO {
         }
     }
 
-    // For event and mood
+    // For Event and Mood
     public void insert(String table,String detail,Date date){
         SimpleDateFormat sdf;
         if(table.equals("mood"))sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -136,7 +150,8 @@ public class PaanDAO {
     }
 
 
-    // Update Method
+    /// Update Method
+    // Update for UserSetting
     public void updateSettings(String type, int val){
         String query = "UPDATE userSettings SET "+type+" = "+val+";";
         try{
@@ -146,7 +161,7 @@ public class PaanDAO {
         }
     }
 
-    // for event and mood
+    // Update for Event and Mood
     public void update(String table, String detail, Date date){
         String dateStr;
         if(table.equals("event")) dateStr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date)+"'";
@@ -159,10 +174,40 @@ public class PaanDAO {
         }
     }
 
+    // Update drink
+    public void updateDaily(int val){
+        String query = "UPDATE dailyTable SET drink = "+val;
+        try {
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Fail at updateDaily");
+        }
+    }
+
+    // Update date after clear
+    public void updateDaily(Date newDate){
+        String tmrw = (newDate.getYear()+1900)+"-"+(newDate.getMonth()+1)+"-"+(newDate.getDate()+1);
+        String query = "UPDATE dailyTable SET dateTime = '"+tmrw+"'";
+        try {
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Fail at updateDaily");
+        }
+    }
+
+    // Update detail of the record
+    public void updateTodo(String table,int status, String detail){
+        String query = "UPDATE "+table+" SET status = "+status+" WHERE detail = '"+detail+"';";
+        try{
+            st.execute(query);
+        } catch (SQLException e) {
+            System.out.println("Remove "+table+"failed");
+        }
+    }
 
 
-
-    // Load Method
+    /// Load Method
+    // Load setting for each type
     public int loadSettings(String type){
         String query = "SELECT " + type + " FROM userSettings";
         try {
@@ -177,6 +222,7 @@ public class PaanDAO {
         }
     }
 
+    // Load linked list for timeline
     public LinkedList<TaskEvent> loadTimeline(){
         Date current = new Date(); // Current  date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -196,6 +242,7 @@ public class PaanDAO {
         }
     }
 
+    // Load TodoList for todolist and daily
     public TodoList loadTodoList(String tableName){
         String query = "SELECT * FROM "+tableName+" ORDER BY status ASC";
         TodoList temp = new TodoList();
@@ -211,6 +258,19 @@ public class PaanDAO {
         }
     }
 
+    // Load value for current Drink
+    public int loadDrink(){
+        String query = "SELECT drink FROM dailyTable";
+        try{
+            rs = st.executeQuery(query);
+            if(!rs.isClosed()) return rs.getInt(1);
+        } catch (SQLException e) {
+            System.out.println("Failed at loadDrink");
+        }
+        return 0;
+    }
+
+    // Load TaskEvent for mood using date
     public TaskEvent loadMood(Date date){
         String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
         String query = "SELECT * FROM moodTable WHERE dateTime == '" + dateStr + "'";
@@ -223,6 +283,7 @@ public class PaanDAO {
         return null;
     }
 
+    // Load Eventlist range frome date to date+1
     public EventList loadEvent(Date date){
         String dateCstr = "'"+new SimpleDateFormat("yyyy-MM-dd").format(date)+"'";
         String dateSstr = (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+(date.getDate()+1);
@@ -242,9 +303,29 @@ public class PaanDAO {
         return null;
     }
 
+    // Load TimeTable
+    public TimeTable loadTimeTable(){
+        String query =  "SELECT * FROM timeTable ORDER BY day ASC";
+        try{
+            rs = st.executeQuery(query);
+            TimeTable temp = new TimeTable();
+            while(rs.next()) {
+                temp.add(rs.getInt("day"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("task"));
+            }
+            return temp;
+        } catch (SQLException e) {
+            System.out.println("Failed at load timetable");
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
 
-    // event
+    /// Remove Method
+    // Event
     public void remove(String detail, Date delDate){
         String delDateStr = "'"+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(delDate)+"'";
         String query = "DELETE FROM eventTable WHERE detail == '"+detail+"' AND dateTime == "+ delDateStr;
@@ -264,17 +345,19 @@ public class PaanDAO {
             System.out.println("Remove "+table+" failed");
         }
     }
-
-    // update
-    public void updateTodo(String table,int status, String detail){
-        String query = "UPDATE "+table+" SET status = "+status+" WHERE detail = '"+detail+"';";
+    // Table
+    public void remove(Table table){
+        String query = "DELETE FROM timeTable WHERE day == "+table.getDay()+" AND startTime == '"+ table.getStrStartTime()+"' AND endTime == '"+ table.getStrEndTime()+"' AND task == '"+table.getTask()+"'";
         try{
             st.execute(query);
         } catch (SQLException e) {
-            System.out.println("Remove "+table+"failed");
+            System.out.println("Remove timeTable failed");
         }
     }
 
+
+    /// Get Method
+    // Get the dest reset date
     public Date getResetDate(){
         String query = "SELECT dateTime FROM dailyTable";
         try {
@@ -282,64 +365,6 @@ public class PaanDAO {
             return new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString(1));
 
         } catch (SQLException | ParseException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
-    public void clearDailyTask(){
-        String query = "UPDATE dailyTaskTable SET status = 0";
-        try {
-            st.execute(query);
-        } catch (SQLException e) {
-            System.out.println("Fail at clearDailyTask()");
-        }
-    }
-    // Update drink
-    public void updateDaily(int val){
-        String query = "UPDATE dailyTable SET drink = "+val;
-        try {
-            st.execute(query);
-        } catch (SQLException e) {
-            System.out.println("Fail at updateDaily");
-        }
-    }
-    // Update date after clear
-    public void updateDaily(Date newDate){
-        String tmrw = (newDate.getYear()+1900)+"-"+(newDate.getMonth()+1)+"-"+(newDate.getDate()+1);
-        String query = "UPDATE dailyTable SET dateTime = '"+tmrw+"'";
-        try {
-            st.execute(query);
-        } catch (SQLException e) {
-            System.out.println("Fail at updateDaily");
-        }
-    }
-
-    public int loadDrink(){
-        String query =  "SELECT drink FROM dailyTable";
-        try{
-            rs = st.executeQuery(query);
-            if(!rs.isClosed()) return rs.getInt(1);
-        } catch (SQLException e) {
-            System.out.println("Failed at loadDrink");
-        }
-        return 0;
-    }
-
-    public TimeTable loadTimeTable(){
-        String query =  "SELECT * FROM timeTable ORDER BY day ASC";
-        try{
-            rs = st.executeQuery(query);
-            TimeTable temp = new TimeTable();
-            while(rs.next()) {
-                temp.add(rs.getInt("day"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime"),
-                        rs.getString("task"));
-            }
-            return temp;
-        } catch (SQLException e) {
-            System.out.println("Failed at load timetable");
             System.out.println(e.getMessage());
         }
         return null;

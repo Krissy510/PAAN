@@ -26,9 +26,9 @@ public class PaanModel extends Observable {
     private LinkedList<TaskEvent> timeline;
     private TimeTable timeTable;
 
-
+    // Default Constructor
     public PaanModel() {
-        this.focusDate = new Date();
+        this.focusDate = new Date(); // current Date
         try {
             this.pdao = new PaanDAO();
             initialize();
@@ -39,6 +39,7 @@ public class PaanModel extends Observable {
 
     }
 
+    // Initialize method for constructor only
     private void initialize(){
         LinkedList<String> arr = new LinkedList<>();
         arr.add("dailyTask");
@@ -71,12 +72,13 @@ public class PaanModel extends Observable {
         loadTimeTable();
     }
 
+    // memo load page
     public void memoLoad(){
         loadMood();
         loadEvent();
     }
 
-    // Timeline
+    /// Timeline
     public void loadTimeline(){
         timeline = pdao.loadTimeline();
         if(timeline == null) this.timeline = new LinkedList<>();
@@ -86,7 +88,7 @@ public class PaanModel extends Observable {
         return timeline;
     }
 
-    // Setting
+    /// Setting
     public void loadUserSettings(){
         theme = pdao.loadSettings("theme");
         timeFormat = pdao.loadSettings("timeFormat");
@@ -115,7 +117,7 @@ public class PaanModel extends Observable {
     }
 
 
-    // Mood
+    /// Mood
     // Format we mostly use yyyy-mm-dd for date
     // and hh:mm for time
 
@@ -139,78 +141,11 @@ public class PaanModel extends Observable {
         }
     }
 
-    public boolean addEventTask(String detail, String date){
-        try {
-            Date temp = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-            if (eventList.isDuplicate(detail,new SimpleDateFormat("HH:mm").format(temp))){
-                System.out.println("Task already existed");
-                return false;
-            }
-            pdao.insert("event",detail,temp);
-            eventList.addTask(detail,date);
-            return true;
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
-    }
 
-
-    // Todolist
+    /// Todolist
     public void loadTodoList(){
         todoList = pdao.loadTodoList("todoTable");
         if(todoList == null) dailyList = new TodoList();
-    }
-
-    public  LinkedList<TaskList> getTodoList(){
-        return todoList.getTodoList();
-    }
-
-    // Daily
-    public void loadDailyTask(){
-        dailyList = pdao.loadTodoList("dailyTaskTable");
-        if(dailyList == null) dailyList = new TodoList();
-    }
-
-    public LinkedList<TaskList> getDailyTask() {return dailyList.getTodoList();}
-
-    public int getDailyTotal(){return dailyList.getTotal();}
-    public int getDailyCheck(){return dailyList.getChecked();}
-    public int getDailyUncheck(){return dailyList.getUnchecked();}
-
-    // EventList
-    public LinkedList<TaskEvent> getEventList(){
-        return eventList.getTaskEventLinkedList();
-    }
-
-    // reset date
-    public void resetFocusDate(){
-        focusDate = new Date(); // Current
-    }
-
-    public void loadEvent(){
-        eventList = pdao.loadEvent(focusDate);
-        if(eventList == null) this.eventList = new EventList();
-    }
-
-    public void setDate(String date){
-        try {
-            Date cDate = new Date();
-            if(date.equals(new SimpleDateFormat("yyyy-MM-dd").format(cDate))) resetFocusDate();
-            this.focusDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public Date getFocusDate() {
-        return focusDate;
-    }
-
-    public void removeEventTask(int index){
-        TaskEvent temp = eventList.getOBJTask(index);
-        pdao.remove(temp.getDetail(),temp.getDate());
-        eventList.removeTask(index);
     }
 
     public boolean addTodoTask( String detail){
@@ -220,22 +155,9 @@ public class PaanModel extends Observable {
         return true;
     }
 
-
-    public boolean addDailyTask(String detail){
-        if(dailyList.isDuplicate(detail)) return false;
-        pdao.insert("dailyTaskTable",detail);
-        dailyList.addTask(detail);
-        return true;
-    }
-
     public void removeTodoTask(String detail){
         pdao.remove("todoTable",detail);
         todoList.deleteTask(detail);
-    }
-
-    public void removeDailyTask(String detail){
-        pdao.remove("dailyTaskTable",detail);
-        dailyList.deleteTask(detail);
     }
 
     public void todoListCheck(String detail){
@@ -246,6 +168,28 @@ public class PaanModel extends Observable {
     public void todoListUncheck(String detail){
         pdao.updateTodo("todoTable",0,detail);
         loadTodoList();
+    }
+
+    public  LinkedList<TaskList> getTodoList(){
+        return todoList.getTodoList();
+    }
+
+    /// Daily
+    public void loadDailyTask(){
+        dailyList = pdao.loadTodoList("dailyTaskTable");
+        if(dailyList == null) dailyList = new TodoList();
+    }
+
+    public boolean addDailyTask(String detail){
+        if(dailyList.isDuplicate(detail)) return false;
+        pdao.insert("dailyTaskTable",detail);
+        dailyList.addTask(detail);
+        return true;
+    }
+
+    public void removeDailyTask(String detail){
+        pdao.remove("dailyTaskTable",detail);
+        dailyList.deleteTask(detail);
     }
 
     public void dailyListCheck(String detail){
@@ -288,16 +232,89 @@ public class PaanModel extends Observable {
         this.drink = pdao.loadDrink();
     }
 
+    public LinkedList<TaskList> getDailyTask() {return dailyList.getTodoList();}
+
+    public int getDailyTotal(){return dailyList.getTotal();}
+    public int getDailyCheck(){return dailyList.getChecked();}
+    public int getDailyUncheck(){return dailyList.getUnchecked();}
+
+    // EventList
+    public boolean addEventTask(String detail, String date){
+        try {
+            Date temp = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+            if (eventList.isDuplicate(detail,new SimpleDateFormat("HH:mm").format(temp))){
+                System.out.println("Task already existed");
+                return false;
+            }
+            pdao.insert("event",detail,temp);
+            eventList.addTask(detail,date);
+            return true;
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public void removeEventTask(int index){
+        TaskEvent temp = eventList.getOBJTask(index);
+        pdao.remove(temp.getDetail(),temp.getDate());
+        eventList.removeTask(index);
+    }
+
+    public LinkedList<TaskEvent> getEventList(){
+        return eventList.getTaskEventLinkedList();
+    }
+
+    public void loadEvent(){
+        eventList = pdao.loadEvent(focusDate);
+        if(eventList == null) this.eventList = new EventList();
+    }
+
+
+    /// Focus Date
+    public void setDate(String date){
+        try {
+            Date cDate = new Date();
+            if(date.equals(new SimpleDateFormat("yyyy-MM-dd").format(cDate))) resetFocusDate();
+            else this.focusDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Date getFocusDate() {
+        return focusDate;
+    }
+
+    // Reset date to current
+    public void resetFocusDate(){
+        focusDate = new Date(); // Current
+    }
+
+
+    /// Table
     public void loadTimeTable(){
         this.timeTable = pdao.loadTimeTable();
         if(timeTable == null) this.timeTable = new TimeTable();
     }
-
-    public TimeTable getTimeTable(){
-        return timeTable;
-    }
-
     public LinkedList<Table> getTimeTabelList(){
         return timeTable.getTableList();
+    }
+
+    public boolean addTable(int day, String startTime, String endTime, String task){
+        if(timeTable.isAvailable(day,startTime,endTime,task)){
+            timeTable.add(day,startTime,endTime,task);
+            return true;
+        }else return false;
+    }
+
+    public void removeTable(int index){
+        timeTable.removeTable(index);
+        Table temp = timeTable.getTable(index);
+        pdao.remove(temp);
+    }
+
+    public boolean checkAddAvailable(int day, String startTime, String endTime, String task){
+        return timeTable.isAvailable(day,startTime,endTime,task);
     }
 }
