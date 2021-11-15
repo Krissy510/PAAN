@@ -335,10 +335,9 @@ public class PaanDAO {
             System.out.println("Remove event failed");
         }
     }
-
     // Todolist
-    public void remove(String table, String detail){
-        String query = "DELETE FROM "+table+" WHERE detail == '"+detail+"'";
+    public void remove(String table,int rowId){
+        String query = "DELETE FROM "+table+" WHERE ROWID = "+rowId;
         try{
             st.execute(query);
         } catch (SQLException e) {

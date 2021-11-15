@@ -20,6 +20,7 @@ public class TodoList {
         unchecked++;// O(1)
         total++;// O(1)
     }
+
     // Overload Task
     public void addTask(String detail, boolean done){ // O(1)
         todoLinkedList.add((TaskList) TaskFactory.createTask(detail,done)); // O(1)
@@ -38,8 +39,8 @@ public class TodoList {
     }
 
     // Delete Task
-    public void deleteTask(String detail){ // O(n)
-        TaskList temp = getTask(detail); // O(n)
+    public void deleteTask(int index){ // O(n)
+        TaskList temp = todoLinkedList.get(index); // O(n)
         if(temp != null) {
             if (temp.getStatus()) checked--;  // O(1)
             else unchecked--;

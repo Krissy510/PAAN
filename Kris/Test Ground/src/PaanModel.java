@@ -155,9 +155,9 @@ public class PaanModel extends Observable {
         return true;
     }
 
-    public void removeTodoTask(String detail){
-        pdao.remove("todoTable",detail);
-        todoList.deleteTask(detail);
+    public void removeTodoTask(int index){
+        pdao.remove("todoTable",index+1);
+        todoList.deleteTask(index);
     }
 
     public void todoListCheck(String detail){
@@ -187,9 +187,9 @@ public class PaanModel extends Observable {
         return true;
     }
 
-    public void removeDailyTask(String detail){
-        pdao.remove("dailyTaskTable",detail);
-        dailyList.deleteTask(detail);
+    public void removeDailyTask(int index){
+        pdao.remove("dailyTaskTable",index+1);
+        dailyList.deleteTask(index);
     }
 
     public void dailyListCheck(String detail){
