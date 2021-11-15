@@ -51,14 +51,14 @@ public class TaskEvent extends Task{
     }
 
     // get date
-    public String getDate(){
-        SimpleDateFormat time = new SimpleDateFormat("dd/MM/yyyy");
-        return time.format(date);
+    public String getStrDate(){
+        return new SimpleDateFormat("dd/MM/yyyy").format(date);
     }
 
-    public Date getDateObj(){
+    public Date getDate(){
         return date;
     }
+
 
     // set due date with OBJ
     public void setDate(Date duedate) {
