@@ -245,14 +245,17 @@ public class PaanModel extends Observable {
     public int getDailyUncheck(){return dailyList.getUnchecked();}
 
     // EventList
-    public boolean addEventTask(String detail, String date){
+    public boolean addEventTask(String detail, String time){
         try {
-            Date temp = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+            String date = (focusDate.getYear()+1900)+"-"+(focusDate.getMonth()+1)+"-"+(focusDate.getDate())+" "+time;
+            System.out.println(date);
+            Date temp = new SimpleDateFormat("yyyy-MM-dd").parse((focusDate.getYear()+1900)+"-"+(focusDate.getMonth()+1)+"-"+(focusDate.getDate()));
+            System.out.println(temp);
             if (eventList.isDuplicate(detail,new SimpleDateFormat("HH:mm").format(temp))){
                 System.out.println("Task already existed");
                 return false;
             }
-            pdao.insert("event",detail,temp);
+            pdao.insert("event",detail,new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date));
             eventList.addTask(detail,date);
             return true;
         } catch (ParseException e) {
