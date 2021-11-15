@@ -14,25 +14,29 @@ import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JToggleButton;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-import static project_ui.mainWindow.border;
-import static project_ui.mainWindow.fgColor;
-import static project_ui.tableForm.font;
+import static project_ui.MainWindow.border;
+import static project_ui.MainWindow.fgColor;
+import static project_ui.TableForm.font;
 
 /**
  *
  * @author faynch
  */
 public class DailyForm extends javax.swing.JFrame {
-    private time t = new time();
-    static int total;
+    private Time t = new Time();
     static Font font;
     static Color bgColor;
     static Color fgColor;
     static Border border = BorderFactory.createLineBorder(fgColor, 3);
+    static Border borderD = BorderFactory.createSoftBevelBorder(BevelBorder.RAISED, null, null, fgColor, null);
     
     /**
      * Creates new form dailyForm
@@ -49,17 +53,59 @@ public class DailyForm extends javax.swing.JFrame {
         }     
         
         initComponents();
-        
+
         dailyL.setText(t.getFormattedDateForDaily());
-        
-        doneL.setFont(font.deriveFont(40f));
-        doneNumL.setFont(font.deriveFont(40f));
-        
         taskP.setLayout(new BoxLayout(taskP, BoxLayout.Y_AXIS));
-        
         updateTheme();
+        
+        MainWindow.getPaanModel().checkReset();
+        setDaily();
+        setDailyTask();
+        
  
     }
+    
+    public static void setDaily() {
+        doneL.setFont(font.deriveFont(40f));
+        doneNumL.setFont(font.deriveFont(40f));
+        doneNumL.setText(Integer.toString(MainWindow.getPaanModel().getDailyCheck()));
+        
+        remainL.setFont(font.deriveFont(40f));
+        remainNumL.setFont(font.deriveFont(40f));
+        remainNumL.setText(Integer.toString(MainWindow.getPaanModel().getDailyUncheck()));
+        
+        totalNumL.setText(Integer.toString(MainWindow.getPaanModel().getDailyTotal()));
+        
+        JToggleButton[] gButton = {glass1, glass2, glass3, glass4, glass5, glass6, glass7, glass8};
+        
+        for(int i=0; i < MainWindow.getPaanModel().getDrink(); i++) {
+            gButton[i].isSelected();
+        }
+    }
+    
+    public static void setDailyTask() {
+        LinkedList<TaskList> dailyList = MainWindow.getPaanModel().getDailyTask();
+        for (TaskList taskD: dailyList){
+            CheckListTaskForDaily tempTask = new CheckListTaskForDaily();
+            if (taskD.getStatus() == true) {tempTask.getDone().isSelected();}
+            tempTask.getTaskName().setText(taskD.getDetail());
+            taskP.add(tempTask);
+        }
+    }
+
+    public static JLabel getDoneNumL() {
+        return doneNumL;
+    }
+
+    public static JLabel getRemainNumL() {
+        return remainNumL;
+    }
+
+    public static JLabel getTotalNumL() {
+        return totalNumL;
+    }
+    
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -90,11 +136,12 @@ public class DailyForm extends javax.swing.JFrame {
         mainTaskP = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taskP = new javax.swing.JPanel();
+        remainL = new javax.swing.JLabel();
+        remainNumL = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1100, 700));
         setMinimumSize(new java.awt.Dimension(1100, 700));
-        setPreferredSize(new java.awt.Dimension(1100, 700));
         setResizable(false);
 
         dailyP.setBackground(new java.awt.Color(255, 255, 255));
@@ -148,29 +195,28 @@ public class DailyForm extends javax.swing.JFrame {
         });
 
         doneNumL.setFont(font);
-        doneNumL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        doneNumL.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         doneNumL.setText("num");
-        doneNumL.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        doneNumL.setMaximumSize(new java.awt.Dimension(450, 70));
-        doneNumL.setMinimumSize(new java.awt.Dimension(450, 70));
-        doneNumL.setPreferredSize(new java.awt.Dimension(450, 70));
-        doneNumL.setSize(new java.awt.Dimension(450, 70));
+        doneNumL.setMaximumSize(new java.awt.Dimension(80, 70));
+        doneNumL.setMinimumSize(new java.awt.Dimension(80, 70));
+        doneNumL.setPreferredSize(new java.awt.Dimension(80, 70));
+        doneNumL.setSize(new java.awt.Dimension(80, 70));
 
         totalL.setFont(font);
-        totalL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        totalL.setText("TOTAL");
-        totalL.setMaximumSize(new java.awt.Dimension(450, 50));
-        totalL.setMinimumSize(new java.awt.Dimension(450, 50));
-        totalL.setPreferredSize(new java.awt.Dimension(450, 50));
-        totalL.setSize(new java.awt.Dimension(450, 50));
+        totalL.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        totalL.setText("TOTAL :");
+        totalL.setMaximumSize(new java.awt.Dimension(80, 50));
+        totalL.setMinimumSize(new java.awt.Dimension(80, 50));
+        totalL.setPreferredSize(new java.awt.Dimension(80, 50));
+        totalL.setSize(new java.awt.Dimension(80, 50));
 
         totalNumL.setFont(font);
-        totalNumL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        totalNumL.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         totalNumL.setText("num");
-        totalNumL.setMaximumSize(new java.awt.Dimension(450, 50));
-        totalNumL.setMinimumSize(new java.awt.Dimension(450, 50));
-        totalNumL.setPreferredSize(new java.awt.Dimension(450, 50));
-        totalNumL.setSize(new java.awt.Dimension(450, 50));
+        totalNumL.setMaximumSize(new java.awt.Dimension(80, 50));
+        totalNumL.setMinimumSize(new java.awt.Dimension(80, 50));
+        totalNumL.setPreferredSize(new java.awt.Dimension(80, 50));
+        totalNumL.setSize(new java.awt.Dimension(80, 50));
 
         glass4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png"))); // NOI18N
         glass4.setBorderPainted(false);
@@ -305,12 +351,12 @@ public class DailyForm extends javax.swing.JFrame {
         });
 
         doneL.setFont(font);
-        doneL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        doneL.setText("DONE");
-        doneL.setMaximumSize(new java.awt.Dimension(450, 70));
-        doneL.setMinimumSize(new java.awt.Dimension(450, 70));
-        doneL.setPreferredSize(new java.awt.Dimension(450, 70));
-        doneL.setSize(new java.awt.Dimension(450, 70));
+        doneL.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        doneL.setText("DONE :");
+        doneL.setMaximumSize(new java.awt.Dimension(80, 70));
+        doneL.setMinimumSize(new java.awt.Dimension(80, 70));
+        doneL.setPreferredSize(new java.awt.Dimension(80, 70));
+        doneL.setSize(new java.awt.Dimension(80, 70));
 
         mainTaskP.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), null));
 
@@ -341,12 +387,28 @@ public class DailyForm extends javax.swing.JFrame {
         mainTaskP.setLayout(mainTaskPLayout);
         mainTaskPLayout.setHorizontalGroup(
             mainTaskPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainTaskPLayout.setVerticalGroup(
             mainTaskPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
         );
+
+        remainL.setFont(font);
+        remainL.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        remainL.setText("REMAIN :");
+        remainL.setMaximumSize(new java.awt.Dimension(80, 70));
+        remainL.setMinimumSize(new java.awt.Dimension(80, 70));
+        remainL.setPreferredSize(new java.awt.Dimension(80, 70));
+        remainL.setSize(new java.awt.Dimension(80, 70));
+
+        remainNumL.setFont(font);
+        remainNumL.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        remainNumL.setText("num");
+        remainNumL.setMaximumSize(new java.awt.Dimension(80, 70));
+        remainNumL.setMinimumSize(new java.awt.Dimension(80, 70));
+        remainNumL.setPreferredSize(new java.awt.Dimension(80, 70));
+        remainNumL.setSize(new java.awt.Dimension(80, 70));
 
         javax.swing.GroupLayout dailyPLayout = new javax.swing.GroupLayout(dailyP);
         dailyP.setLayout(dailyPLayout);
@@ -365,35 +427,42 @@ public class DailyForm extends javax.swing.JFrame {
             .addGroup(dailyPLayout.createSequentialGroup()
                 .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dailyPLayout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(glass4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(110, 110, 110)
+                        .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(dailyPLayout.createSequentialGroup()
+                                .addComponent(remainL, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(remainNumL, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(dailyPLayout.createSequentialGroup()
+                                .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(doneL, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(totalL, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(doneNumL, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(totalNumL, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(dailyPLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(dailyPLayout.createSequentialGroup()
+                                .addComponent(glass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(glass2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(glass3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(dailyPLayout.createSequentialGroup()
+                                .addComponent(glass4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(glass5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(glass6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(glass7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(glass5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(glass6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(glass7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(glass8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(dailyPLayout.createSequentialGroup()
-                            .addGap(31, 31, 31)
-                            .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(totalNumL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(totalL, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(doneNumL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(doneL, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(dailyPLayout.createSequentialGroup()
-                            .addGap(163, 163, 163)
-                            .addComponent(glass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(glass2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(glass3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(glass8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(mainTaskP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(74, 74, 74))
         );
         dailyPLayout.setVerticalGroup(
             dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -409,20 +478,24 @@ public class DailyForm extends javax.swing.JFrame {
                     .addComponent(addB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dailyPLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(doneL, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(doneNumL, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(totalL, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(totalNumL, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
+                        .addGap(97, 97, 97)
+                        .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(remainL, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(remainNumL, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(doneL, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(doneNumL, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(totalL, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(totalNumL, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(59, 59, 59)
                         .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(glass2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(glass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(glass3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
+                        .addGap(18, 18, 18)
                         .addGroup(dailyPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(glass8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(glass4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -439,11 +512,11 @@ public class DailyForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dailyP, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(dailyP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dailyP, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(dailyP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -451,11 +524,25 @@ public class DailyForm extends javax.swing.JFrame {
 
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
         // TODO add your handling code here:
+        Component[] componentList = taskP.getComponents();
+        int start = MainWindow.getPaanModel().getDailyTask().size();
+        int i = 0;
+        for(Component c : componentList){
+            if(i >= start){
+                CheckListTaskForTodo temp = (CheckListTaskForTodo)c;
+               
+                MainWindow.getPaanModel().addTodoTask(temp.getTaskName().getText());
+                if(temp.getDone().isSelected()){MainWindow.getPaanModel().todoListCheck(temp.getTaskName().getText());}
+                else {MainWindow.getPaanModel().todoListUncheck(temp.getTaskName().getText());}
+            }
+            i++;
+        }
+        
         setVisible(false);
-        new mainWindow().setVisible(true);
-        mainWindow.bgColor = bgColor;
-        mainWindow.fgColor = fgColor;
-        mainWindow.updateTheme();
+        new MainWindow().setVisible(true);
+        MainWindow.bgColor = bgColor;
+        MainWindow.fgColor = fgColor;
+        MainWindow.updateTheme();
     }//GEN-LAST:event_backBActionPerformed
 
     private void glass1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_glass1MouseClicked
@@ -471,9 +558,11 @@ public class DailyForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (glass1.isSelected()) {
             glass1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png")));
+            MainWindow.getPaanModel().addDrink();
         }
         else {
             glass1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/water.png")));
+            MainWindow.getPaanModel().removeDrink();
         }
     }//GEN-LAST:event_glass1ItemStateChanged
 
@@ -481,9 +570,11 @@ public class DailyForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (glass2.isSelected()) {
             glass2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png")));
+            MainWindow.getPaanModel().addDrink();
         }
         else {
             glass2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/water.png")));
+            MainWindow.getPaanModel().removeDrink();
         }
     }//GEN-LAST:event_glass2ItemStateChanged
 
@@ -491,9 +582,11 @@ public class DailyForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (glass3.isSelected()) {
             glass3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png")));
+            MainWindow.getPaanModel().addDrink();
         }
         else {
             glass3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/water.png")));
+            MainWindow.getPaanModel().removeDrink();
         }
     }//GEN-LAST:event_glass3ItemStateChanged
 
@@ -501,9 +594,11 @@ public class DailyForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (glass4.isSelected()) {
             glass4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png")));
+            MainWindow.getPaanModel().addDrink();
         }
         else {
             glass4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/water.png")));
+            MainWindow.getPaanModel().removeDrink();
         }
     }//GEN-LAST:event_glass4ItemStateChanged
 
@@ -511,9 +606,11 @@ public class DailyForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (glass5.isSelected()) {
             glass5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png")));
+            MainWindow.getPaanModel().addDrink();
         }
         else {
             glass5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/water.png")));
+            MainWindow.getPaanModel().removeDrink();
         }
     }//GEN-LAST:event_glass5ItemStateChanged
 
@@ -521,9 +618,11 @@ public class DailyForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (glass6.isSelected()) {
             glass6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png")));
+            MainWindow.getPaanModel().addDrink();
         }
         else {
             glass6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/water.png")));
+            MainWindow.getPaanModel().removeDrink();
         }
     }//GEN-LAST:event_glass6ItemStateChanged
 
@@ -531,9 +630,11 @@ public class DailyForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (glass7.isSelected()) {
             glass7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png")));
+            MainWindow.getPaanModel().addDrink();
         }
         else {
             glass7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/water.png")));
+            MainWindow.getPaanModel().removeDrink();
         }
     }//GEN-LAST:event_glass7ItemStateChanged
 
@@ -541,9 +642,11 @@ public class DailyForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (glass8.isSelected()) {
             glass8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/glass.png")));
+            MainWindow.getPaanModel().addDrink();
         }
         else {
             glass8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/water.png")));
+            MainWindow.getPaanModel().removeDrink();
         }
     }//GEN-LAST:event_glass8ItemStateChanged
 
@@ -553,10 +656,8 @@ public class DailyForm extends javax.swing.JFrame {
 
     private void addBMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBMousePressed
         // TODO add your handling code here:
-        DailyTask task = new DailyTask();
-        task.bgColor = bgColor;
-        task.fgColor = fgColor;
-        taskP.add(task, total);
+        CheckListTaskForDaily task = new CheckListTaskForDaily();
+        taskP.add(task);
         revalidate();
     }//GEN-LAST:event_addBMousePressed
 
@@ -566,14 +667,13 @@ public class DailyForm extends javax.swing.JFrame {
 
         for(Component c : componentList){
             
-            DailyTask temp = (DailyTask)c;
+            CheckListTaskForDaily temp = (CheckListTaskForDaily)c;
                     
             if(temp.getDone().isSelected()){
                 taskP.remove(c);
             }
         }
 
-        //IMPORTANT
         taskP.revalidate();
         taskP.repaint();
     }//GEN-LAST:event_deleteActionPerformed
@@ -616,14 +716,19 @@ public class DailyForm extends javax.swing.JFrame {
     
     public static void updateTheme() {
         border = BorderFactory.createLineBorder(fgColor, 3);
+        mainTaskP.setBorder(border);
+        
+        borderD = BorderFactory.createSoftBevelBorder(BevelBorder.RAISED, null, null, fgColor, null);
+        dailyL.setBorder(borderD);
+        
         dailyP.setBackground(bgColor);
         dailyL.setBackground(bgColor);
         mainTaskP.setBackground(bgColor);
         taskP.setBackground(bgColor);
         
-        mainTaskP.setBorder(border);
-        
         dailyL.setForeground(fgColor);
+        remainL.setForeground(fgColor);
+        remainNumL.setForeground(fgColor);
         doneL.setForeground(fgColor);
         doneNumL.setForeground(fgColor);
         totalL.setForeground(fgColor);
@@ -638,16 +743,18 @@ public class DailyForm extends javax.swing.JFrame {
     private javax.swing.JButton delete;
     private static javax.swing.JLabel doneL;
     private static javax.swing.JLabel doneNumL;
-    private javax.swing.JToggleButton glass1;
-    private javax.swing.JToggleButton glass2;
-    private javax.swing.JToggleButton glass3;
-    private javax.swing.JToggleButton glass4;
-    private javax.swing.JToggleButton glass5;
-    private javax.swing.JToggleButton glass6;
-    private javax.swing.JToggleButton glass7;
-    private javax.swing.JToggleButton glass8;
+    private static javax.swing.JToggleButton glass1;
+    private static javax.swing.JToggleButton glass2;
+    private static javax.swing.JToggleButton glass3;
+    private static javax.swing.JToggleButton glass4;
+    private static javax.swing.JToggleButton glass5;
+    private static javax.swing.JToggleButton glass6;
+    private static javax.swing.JToggleButton glass7;
+    private static javax.swing.JToggleButton glass8;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JPanel mainTaskP;
+    private static javax.swing.JLabel remainL;
+    private static javax.swing.JLabel remainNumL;
     private static javax.swing.JPanel taskP;
     private static javax.swing.JLabel totalL;
     private static javax.swing.JLabel totalNumL;
