@@ -62,21 +62,27 @@ public class PaanModel extends Observable {
         loadTimeline();
         loadUserSettings();
         // Memo
-        loadTodoList();
         memoLoad();
         // Daily
         if(!pdao.checkDataExist("dailyTable")) pdao.insert(0,focusDate);
-        loadDailyTask();
-        loadDrink();
+        dailyLoad();
         // Table
         loadTimeTable();
     }
 
     // memo load page
     public void memoLoad(){
+        loadTodoList();
         loadMood();
         loadEvent();
     }
+
+    // daily load
+    public void dailyLoad(){
+        loadDailyTask();
+        loadDrink();
+    }
+
 
     /// Timeline
     public void loadTimeline(){
