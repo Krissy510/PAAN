@@ -337,6 +337,7 @@ public class PaanDAO {
     }
     // Todolist
     public void remove(String table,int rowId){
+        rowId = getRowID(table,rowId);
         String query = "DELETE FROM "+table+" WHERE ROWID = "+rowId;
         try{
             st.execute(query);
@@ -367,5 +368,24 @@ public class PaanDAO {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public int getRowID(String table, int index){
+        String query = "SELECT ROWID FROM "+table;
+        int rowid = 1;
+        int i = 0;
+        try{
+            rs = st.executeQuery(query);
+            while(rs.next() && (i != index)){
+                System.out.println("i:"+i);
+                System.out.println("index:"+index);
+                rowid = rs.getInt(1);
+                System.out.println("rowid:"+rowid);
+                i++;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return rowid;
     }
 }
