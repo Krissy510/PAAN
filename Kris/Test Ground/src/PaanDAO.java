@@ -377,15 +377,13 @@ public class PaanDAO {
         try{
             rs = st.executeQuery(query);
             while(rs.next() && (i != index)){
-                System.out.println("i:"+i);
-                System.out.println("index:"+index);
                 rowid = rs.getInt(1);
-                System.out.println("rowid:"+rowid);
                 i++;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return rowid;
+        if(i != index) return -1;
+        else return rowid;
     }
 }
