@@ -326,4 +326,8 @@ public class PaanModel extends Observable {
     public boolean checkAddAvailable(int day, String startTime, String endTime, String task){
         return timeTable.isAvailable(day,startTime,endTime,task);
     }
+
+    public LinkedList<Table> getTableList(){
+        return timeTable.getTableList();
+    }
 }
