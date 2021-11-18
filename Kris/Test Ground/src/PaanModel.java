@@ -227,6 +227,11 @@ public class PaanModel extends Observable {
         pdao.updateDaily(drink);
     }
 
+    public void setDrink(int val){
+        this.drink = val;
+        pdao.updateDaily(val);
+    }
+
     public void removeDrink(){
         this.drink--;
         pdao.updateDaily(drink);
