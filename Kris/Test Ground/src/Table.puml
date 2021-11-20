@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+Table <.. TimeTable
+Table ..> Task
+
+class Table{
+- startTime : Date
+- endTime : Date
+- task : Task
+- sdf : SimpleDateFormat
++ getDay() : int
++ getStartTime() : Date
++ getEndTime() : Date
++ getStrStartTime() : String
++ getStrEndTime() : String
++ getTask() : String
++ getStrStartHour() : String
++ getStrStartMin() : String
++ getStrEndHour() : String
++ getStrEndMin() : String
+}
+
+class TimeTable{
+    - tableList : LinkedList<Table>
+    + isAvailable(int day, String startTime, String endTime,String task) : boolean
+    + add(int day, String startTime, String endTime, String task) : void
+    + removeTable(int index) : void
+    + getTable(int index) : Table
+    + getTableList() : LinkedList<Table>
+}
+
+class Task{
+    - detail : String
+    + getDetail() : String
+    + setDetail() : void
+}
+@enduml

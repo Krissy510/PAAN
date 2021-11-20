@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+TaskEvent --|> Task
+TaskList --|> Task
+TaskFactory ..> TaskEvent
+TaskFactory ..> TaskList
+
+
+class Task{
+    - detail : String
+    + getDetail() : String
+    + setDetail() : void
+}
+
+class TaskEvent{
+    - date : Date
+    - ft : SimpleDateFormat
+    + getTime(int type) : String
+    + getStrDate() : String
+    + getDate() : Date
+    + setDate(Date duedate) : void
+    + setDate(String duedate) : void
+    + isDue() : boolean
+}
+
+class TaskList{
+    - status : boolean
+    + getStatus() : boolean
+}
+class TaskFactory{
+    + createTask(String type, String detail) : Task
+    + createTask(String detail, boolean done) : Task
+    + createTask(String type,String detail, String date) : Task
+    + createTask(String detail, Date date) : Task
+}
+
+
+@enduml

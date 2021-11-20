@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+TodoList <..  TaskFactory
+EventList <..  TaskFactory
+PaanDAO ..> TimeTable
+PaanModel ..> PaanDAO
+PaanModel ..> TaskFactory
+PaanModel ..> TimeTable
+TaskEvent --|> Task
+TaskList --|> Task
+TaskFactory ..> TaskEvent
+TaskFactory ..> TaskList
+
+
+@enduml
