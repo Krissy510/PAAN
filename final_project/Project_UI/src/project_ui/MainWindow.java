@@ -15,9 +15,6 @@ import static java.lang.System.exit;
 import java.util.LinkedList;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -73,28 +70,6 @@ public class MainWindow extends javax.swing.JFrame {
 
     public static PaanModel getPaanModel() {
         return paanModel;
-    }
-    
-    public static void updateTheme() {
-        border = BorderFactory.createLineBorder(fgColor, 3);
-        timelineP.setBorder(border);
-        
-        mainP.setBackground(bgColor);
-        memoB.setBackground(bgColor);
-        dailyB.setBackground(bgColor);
-        tableB.setBackground(bgColor);
-        timelineL.setBackground(bgColor);
-        timelineP.setBackground(bgColor);
-        timelineT.setBackground(bgColor);
-        
-        memoB.setForeground(fgColor);
-        dailyB.setForeground(fgColor);
-        tableB.setForeground(fgColor);
-        timelineL.setForeground(fgColor);
-        timelineP.setForeground(fgColor);
-        timelineT.setForeground(fgColor);
-        
-       
     }
     
     public static void setTimeLine() {
@@ -397,6 +372,26 @@ public class MainWindow extends javax.swing.JFrame {
         });
     }
 
+    public static void updateTheme() {
+        border = BorderFactory.createLineBorder(fgColor, 3);
+        timelineP.setBorder(border);
+        
+        mainP.setBackground(bgColor);
+        memoB.setBackground(bgColor);
+        dailyB.setBackground(bgColor);
+        tableB.setBackground(bgColor);
+        timelineL.setBackground(bgColor);
+        timelineP.setBackground(bgColor);
+        timelineT.setBackground(bgColor);
+        
+        memoB.setForeground(fgColor);
+        dailyB.setForeground(fgColor);
+        tableB.setForeground(fgColor);
+        timelineL.setForeground(fgColor);
+        timelineP.setForeground(fgColor);
+        timelineT.setForeground(fgColor);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton dailyB;
     private javax.swing.JButton exitB;

@@ -5,7 +5,6 @@
  */
 package project_ui;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -13,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import static project_ui.DailyForm.font;
 
 /**
  *
@@ -83,11 +81,6 @@ public class CheckListTaskForTodo extends javax.swing.JPanel {
 
         taskName.setFont(font);
         taskName.setBorder(null);
-        taskName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                taskNameActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -120,11 +113,6 @@ public class CheckListTaskForTodo extends javax.swing.JPanel {
             MainWindow.getPaanModel().todoListUncheck(taskName.getText());
         }
     }//GEN-LAST:event_doneItemStateChanged
-
-    private void taskNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taskNameActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_taskNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

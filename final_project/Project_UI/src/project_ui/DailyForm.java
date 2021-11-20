@@ -10,21 +10,14 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.LinkedList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
-import javax.swing.JToggleButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-import static project_ui.MainWindow.border;
-import static project_ui.MainWindow.fgColor;
-import static project_ui.TableForm.font;
 
 /**
  *
@@ -65,8 +58,6 @@ public class DailyForm extends javax.swing.JFrame {
         setDailyTask();
         setDaily();
         setDailyDrink();
-        
- 
     }
     
     public static void setDaily() {
@@ -234,11 +225,6 @@ public class DailyForm extends javax.swing.JFrame {
                 addBMousePressed(evt);
             }
         });
-        addB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBActionPerformed(evt);
-            }
-        });
 
         delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trash.png"))); // NOI18N
         delete.setBorderPainted(false);
@@ -394,16 +380,6 @@ public class DailyForm extends javax.swing.JFrame {
         glass1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 glass1ItemStateChanged(evt);
-            }
-        });
-        glass1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                glass1MouseClicked(evt);
-            }
-        });
-        glass1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                glass1ActionPerformed(evt);
             }
         });
 
@@ -593,22 +569,12 @@ public class DailyForm extends javax.swing.JFrame {
             }
         }
   
-//        MainWindow.getPaanModel().resetFocusDate();
-//        MainWindow.getPaanModel().loadEvent();
         setVisible(false);
         new MainWindow().setVisible(true);
         MainWindow.bgColor = bgColor;
         MainWindow.fgColor = fgColor;
         MainWindow.updateTheme();
     }//GEN-LAST:event_backBActionPerformed
-
-    private void glass1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_glass1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_glass1MouseClicked
-
-    private void glass1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glass1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_glass1ActionPerformed
 
     private void glass1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_glass1ItemStateChanged
         // TODO add your handling code here:
@@ -706,10 +672,6 @@ public class DailyForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_glass8ItemStateChanged
 
-    private void addBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addBActionPerformed
-
     private void addBMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBMousePressed
         // TODO add your handling code here:
         CheckListTaskForDaily task = new CheckListTaskForDaily();
@@ -743,42 +705,6 @@ public class DailyForm extends javax.swing.JFrame {
         doneNumL.setText(String.valueOf(--doneN));
         totalNumL.setText(String.valueOf(--totalN));
     }//GEN-LAST:event_deleteActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DailyForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DailyForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DailyForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DailyForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DailyForm().setVisible(true);
-            }
-        });
-    }
     
     public static void updateTheme() {
         border = BorderFactory.createLineBorder(fgColor, 3);

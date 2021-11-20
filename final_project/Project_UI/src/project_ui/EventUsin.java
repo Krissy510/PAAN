@@ -13,9 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -226,49 +224,16 @@ public class EventUsin extends javax.swing.JFrame {
         }
         return "";
     }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EventUsin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EventUsin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EventUsin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EventUsin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+    public static boolean validEvent() {
+        boolean check = true;
+        if (taskE.getText().equals("")) {
+            warning.setText("!!! Add Event !!!");
+            check = false;
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EventUsin().setVisible(true);
-            }
-        });
+        return check;   
     }
-    
+
     public static void updateTheme() {
         usinEventP.setBackground(bgColor);
         okB.setBackground(bgColor);
@@ -281,15 +246,6 @@ public class EventUsin extends javax.swing.JFrame {
         okB.setForeground(fgColor);
         warning.setForeground(fgColor);
         
-    }
-    
-    public static boolean validEvent() {
-        boolean check = true;
-        if (taskE.getText().equals("")) {
-            warning.setText("!!! Add Event !!!");
-            check = false;
-        }
-        return check;   
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

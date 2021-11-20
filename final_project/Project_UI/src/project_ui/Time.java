@@ -62,18 +62,4 @@ public class Time {
         newTime = newTime.plusDays(1);
     }
     
-    public static void main(String args[]) {
-        Time t = new Time();
-        System.out.println(t.getFormattedDateForMemo());
-        System.out.println(t.getFormattedDateForBackend());
-        System.out.println(t.getFormattedDateForDaily());
-        t.decreaseTime();
-        System.out.println(t.getFormattedDateForMemo());
-        System.out.println(t.getFormattedDateForBackend());
-        System.out.println(t.getFormattedDateForDaily());
-        t.increaseTime();
-        System.out.println(t.getFormattedDateForMemo());
-        System.out.println(t.getFormattedDateForBackend());
-        System.out.println(t.getFormattedDateForDaily());
-    }
 }

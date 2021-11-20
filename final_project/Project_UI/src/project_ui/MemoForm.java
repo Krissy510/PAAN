@@ -16,15 +16,8 @@ import java.util.LinkedList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.JCheckBox;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-import static project_ui.DailyForm.fgColor;
-import static project_ui.EventUsin.bgColor;
-import static project_ui.EventUsin.fgColor;
-import static project_ui.EventUsin.updateTheme;
 
 
 /**
@@ -224,11 +217,6 @@ public class MemoForm extends javax.swing.JFrame {
         addForListB.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 addForListBMousePressed(evt);
-            }
-        });
-        addForListB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addForListBActionPerformed(evt);
             }
         });
 
@@ -459,11 +447,6 @@ public class MemoForm extends javax.swing.JFrame {
                 redBItemStateChanged(evt);
             }
         });
-        redB.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                redBMouseClicked(evt);
-            }
-        });
 
         moodL.setBackground(new java.awt.Color(255, 255, 255));
         moodL.setFont(font);
@@ -622,17 +605,6 @@ public class MemoForm extends javax.swing.JFrame {
         EventUsin.updateTheme();
     }//GEN-LAST:event_addForEventBActionPerformed
 
-    private void addForListBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addForListBActionPerformed
-        // TODO add your handling code here:
-//        JCheckBox check = new JCheckBox();
-//        JTextField list = new JTextField();
-        
-    }//GEN-LAST:event_addForListBActionPerformed
-
-    private void redBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_redBMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_redBMouseClicked
-
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
         // TODO add your handling code here:
         Component[] componentList = todoP.getComponents();
@@ -741,42 +713,6 @@ public class MemoForm extends javax.swing.JFrame {
             blueB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blue.png")));
         }
     }//GEN-LAST:event_blueBItemStateChanged
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MemoForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MemoForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MemoForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MemoForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MemoForm().setVisible(true);
-            }
-        });
-    }
     
     public static void updateTheme() {
         borderT = BorderFactory.createLineBorder(fgColor, 3);

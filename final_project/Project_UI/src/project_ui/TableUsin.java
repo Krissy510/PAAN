@@ -9,20 +9,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 
 /**
  *
@@ -302,7 +294,6 @@ public class TableUsin extends javax.swing.JFrame {
                     subjectT.getText());
             
                 if (validTask()) {
-//                    System.out.println(task);
                     TableUsin.TTModel.addElement(task);                    
                 }
                 task = "";
@@ -317,63 +308,49 @@ public class TableUsin extends javax.swing.JFrame {
         }
         setVisible(false);
     }//GEN-LAST:event_okBActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    
+    public boolean validTask() {
+        boolean check = true;
+        if (dayC.getSelectedIndex() == 0) {
+            warning.setText("!!! Select Day !!!");
+            check = false;
+        }
+        
+        if (subjectT.getText().equals("")) {
+            warning.setText("!!! Add Subject !!!");
+            check = false;
+        }
+        
+        String startTime = startThourS.getValue().toString() + ":" + startTminS.getValue().toString();
+        String endTime = endThourS.getValue().toString() + ":" + endTminS.getValue().toString();
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            Date start = new SimpleDateFormat("HH:mm").parse(startTime);
+            Date end  = new SimpleDateFormat("HH:mm").parse(endTime);
+            startTime = new SimpleDateFormat("HH:mm").format(start);
+            endTime = new SimpleDateFormat("HH:mm").format(end);
+            if(end.before(start)){
+                warning.setText("!!! Invalid Time !!!");
+                check = false;
+            }
+            else{
+                if (!(MainWindow.getPaanModel().addTable(dayC.getSelectedIndex(), startTime, endTime, subjectT.getText()))) {
+                    warning.setText("!!! This Task isn't available !!!");
+                    check = false;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TableUsin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TableUsin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TableUsin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TableUsin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TableUsin().setVisible(true);
-            }
-        });
+        return check;   
     }
     
-    
-    
-//    public void addTaskListener(ActionListener listener) {
-//        addB.addActionListener(listener);
-//    }
-    
+    public void createBounds(int day, Object startHour, Object startmin, Object endHour, Object endmin, String task){
+        int x = (60*((int)startHour-6)+(int)startmin);
+        int y = 68*(day-1);
+        int w = (((int)endHour-(int)startHour)*60)-(int)startmin+(int)endmin;
+        TableForm.addSubject(task, x, y, w);
+    }    
+        
     public static void updateTheme() {
         usinTTP.setBackground(bgColor);
         TTlist.setBackground(bgColor);
@@ -406,49 +383,6 @@ public class TableUsin extends javax.swing.JFrame {
         endTminS.setForeground(fgColor);
         subjectL.setForeground(fgColor);
         subjectT.setForeground(fgColor);
-    }
-    
-    public boolean validTask() {
-        boolean check = true;
-        if (dayC.getSelectedIndex() == 0) {
-            warning.setText("!!! Select Day !!!");
-            check = false;
-        }
-        
-        if (subjectT.getText().equals("")) {
-            warning.setText("!!! Add Subject !!!");
-            check = false;
-        }
-        
-        String startTime = startThourS.getValue().toString() + ":" + startTminS.getValue().toString();
-        String endTime = endThourS.getValue().toString() + ":" + endTminS.getValue().toString();
-        try {
-            Date start = new SimpleDateFormat("HH:mm").parse(startTime);
-            Date end  = new SimpleDateFormat("HH:mm").parse(endTime);
-            startTime = new SimpleDateFormat("HH:mm").format(start);
-            endTime = new SimpleDateFormat("HH:mm").format(end);
-            if(end.before(start)){
-                warning.setText("!!! Invalid Time !!!");
-                check = false;
-            }
-            else{
-                if (!(MainWindow.getPaanModel().addTable(dayC.getSelectedIndex(), startTime, endTime, subjectT.getText()))) {
-                    System.out.println(dayC.getSelectedIndex());
-                    warning.setText("!!! This Task isn't available !!!");
-                    check = false;
-                }
-            }
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-        return check;   
-    }
-    
-    public void createBounds(int day, Object startHour, Object startmin, Object endHour, Object endmin, String task){
-        int x = (60*((int)startHour-6)+(int)startmin);
-        int y = 68*(day-1);
-        int w = (((int)endHour-(int)startHour)*60)-(int)startmin+(int)endmin;
-        TableForm.addSubject(task, x, y, w);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
