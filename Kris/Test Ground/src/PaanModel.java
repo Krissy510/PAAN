@@ -7,23 +7,26 @@ import java.util.Observable;
 
 public class PaanModel extends Observable {
 
-    // user setting attr
-    private int timeFormat;
-    private int theme;
-    private int drink;
-
-    // track date attr
-    private Date focusDate;
-
     // DAO
     private PaanDAO pdao;
 
     // data attr
+    // Memo
     private TaskEvent mood;
     private TodoList todoList;
-    private TodoList dailyList;
     private EventList eventList;
+    // track date attr
+    private Date focusDate;
+    // Daily
+    private TodoList dailyList;
+    private int drink;
+    // Menu
     private LinkedList<TaskEvent> timeline;
+    // Setting
+    // user setting attr
+    private int timeFormat;
+    private int theme;
+    // Timetable
     private TimeTable timeTable;
 
     // Default Constructor
