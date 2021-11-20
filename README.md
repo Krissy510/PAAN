@@ -26,7 +26,6 @@ by giving simplistic in return.
 
 # Contributor 
   * [Raviphas Sananapanichkul](https://www.krisportfolio.tech)
-  * Hatsawat Limcharoen
   * Natcha Teekayu
 
 # License
